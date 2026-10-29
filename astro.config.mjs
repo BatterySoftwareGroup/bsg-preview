@@ -9,8 +9,9 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   // GitHub Pages: set site to https://<org>.github.io
   // and, unless the repo is named <org>.github.io, base to '/<repo-name>'.
-  site: 'https://bsg-lab.github.io', // 임시값 — 실제 GitHub Pages 주소로 바꿀 것 (sitemap·OG 이미지 주소에 사용)
-  // base: '/<repo-name>',
+  site: 'https://batterysoftwaregroup.github.io',
+  base: '/bsg-preview', // 정식 저장소(<org>.github.io)로 옮기면 이 줄 삭제
+
   vite: {
     plugins: [tailwindcss()]
   },
