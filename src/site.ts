@@ -20,4 +20,6 @@ export const SITE = {
   // 첫 화면(hero) 배경. heroVideo(mp4, 무음)가 있으면 영상(데스크톱에서만) → 없으면 heroImage → 둘 다 비면 코드 애니메이션. public/hero/ 아래.
   heroImage: '', // 영상의 poster로도 쓰임. 예: '/hero/hero.jpg'
   heroVideo: '',
+  // true면 검색 엔진에 안 잡힘(프리뷰용). 정식 공개 때 false로.
+  noindex: true,
 };
