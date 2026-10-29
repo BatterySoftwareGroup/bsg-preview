@@ -1,0 +1,8 @@
+---
+// Page body wrapper: shared width/padding for every page except the home hero.
+const { title } = Astro.props;
+---
+<div class="mx-auto max-w-6xl px-4 py-10 md:py-14 lg:px-8">
+  {title && <h1 class="reveal mb-8 text-3xl font-bold text-navy md:text-4xl dark:text-white">{title}</h1>}
+  <slot />
+</div>

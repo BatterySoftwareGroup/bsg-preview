@@ -1,0 +1,24 @@
+# 갤러리 (기존 Google Sites 22건 이관). image는 public/gallery/ 아래, 최신이 앞으로 자동 정렬.
+# 새 사진: 긴 변 1600px JPG ≤ 500 KB, 파일명 YYYY-MM-DD-행사.jpg
+- { id: g2026-09-14, date: 2026-09-14, image: /gallery/2026-09-14.jpg, caption: AI MDL Center kick-off meeting (Daejeon) }
+- { id: g2026-08-23, date: 2026-08-23, image: /gallery/2026-08-23.jpg, caption: IFAC BMS Workshop (Busan) }
+- { id: g2026-08-21, date: 2026-08-21, image: /gallery/2026-08-21.jpg, caption: Battery Technology Symposium (Seoul) }
+- { id: g2026-07-23, date: 2026-07-23, image: /gallery/2026-07-23.jpg, caption: Visit to KIST (Seoul) }
+- { id: g2026-05-15, date: 2026-05-15, image: /gallery/2026-05-15.jpg, caption: Teachers' Day dinner (Naju) }
+- { id: g2026-01-09, date: 2026-01-09, image: /gallery/2026-01-09.jpg, caption: Forest Resources Research Institute (Naju) }
+- { id: g2025-12-31, date: 2025-12-31, image: /gallery/2025-12-31.jpg, caption: Year-end lab dinner (Naju) }
+- { id: g2025-08-14, date: 2025-08-14, image: /gallery/2025-08-14.jpg, caption: KENTECH commencement (Naju) }
+- { id: g2025-07-25, date: 2025-07-25, image: /gallery/2025-07-25.jpg, caption: Lab dinner (Hwasun) }
+- { id: g2025-04-02, date: 2025-04-02, image: /gallery/2025-04-02.jpg, caption: KECS Spring Meeting (Jeju) }
+- { id: g2025-02-21, date: 2025-02-21, image: /gallery/2025-02-21.jpg, caption: KENTECH commencement (Naju) }
+- { id: g2025-02-10, date: 2025-02-10, image: /gallery/2025-02-10.jpg, caption: Group photo at KENTECH (Naju) }
+- { id: g2024-12-04, date: 2024-12-04, image: /gallery/2024-12-04.jpg, caption: KENTECH Annual Research Fair 2024 (Naju) }
+- { id: g2024-08-08, date: 2024-08-08, image: /gallery/2024-08-08.jpg, caption: Visit to Mintech (Daejeon) }
+- { id: g2024-04-17, date: 2024-04-17, image: /gallery/2024-04-17.jpg, caption: Farewell dinner for research interns (Naju) }
+- { id: g2024-03-07, date: 2024-03-07, image: /gallery/2024-03-07.jpg, caption: InterBattery 2024 (Seoul) }
+- { id: g2024-01-04, date: 2024-01-04, image: /gallery/2024-01-04.jpg, caption: Group photo at KENTECH (Naju) }
+- { id: g2023-12-08, date: 2023-12-08, image: /gallery/2023-12-08.jpg, caption: Korean Battery Society meeting (Osong) }
+- { id: g2023-09-15, date: 2023-09-15, image: /gallery/2023-09-15.jpg, caption: Visit to LG Energy Solution (Daejeon) }
+- { id: g2023-05-09, date: 2023-05-09, image: /gallery/2023-05-09.jpg, caption: KENTECH–KOTI MOU signing ceremony (Naju) }
+- { id: g2023-04-17, date: 2023-04-17, image: /gallery/2023-04-17.jpg, caption: Visit to LG Energy Solution (Daejeon) }
+- { id: g2023-02-24, date: 2023-02-24, image: /gallery/2023-02-24.jpg, caption: KENTECH entrance ceremony (Naju) }

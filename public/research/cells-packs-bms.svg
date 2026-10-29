@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Battery cells, packs and BMS algorithms: pack thermal model, fast-charging profile, aging diagnostics, user patterns and lab validation">
+<defs>
+<linearGradient id="cellSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7dd3fc"/><stop offset=".45" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0d316f"/></linearGradient>
+<linearGradient id="tray" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d4ed8"/><stop offset="1" stop-color="#0d316f"/></linearGradient>
+<radialGradient id="sphere" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#bae6fd"/><stop offset=".45" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0d316f"/></radialGradient>
+<linearGradient id="bld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0d316f"/></linearGradient>
+<linearGradient id="heatbar" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+<filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#0d316f" flood-opacity=".22"/></filter>
+<filter id="card"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0d316f" flood-opacity=".06"/></filter>
+<style>
+.panel{fill:#fff;stroke:#e2e8f0;stroke-width:1.5}
+.t{font-family:Pretendard Variable, Inter, system-ui, sans-serif;font-size:17px;font-weight:700;fill:#0d316f}
+.l{font-family:Pretendard Variable, Inter, system-ui, sans-serif;font-size:11px;fill:#64748b}
+.ax{stroke:#cbd5e1;stroke-width:1.5}
+</style>
+</defs>
+<rect width="1200" height="800" fill="#f8fafc"/>
+<g transform="translate(28 28)"><clipPath id="c1"><rect width="561" height="361" rx="18"/></clipPath>
+<rect class="panel" width="561" height="361" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c1)"><text class="t" x="22" y="40">Cell &amp; Pack Models</text>
+<g transform="translate(270 205) scale(.95)" filter="url(#sh)"><g transform="translate(-40 -98)">
+<polygon points="-180,96 80,226 80,242 -180,112" fill="#0a2452"/>
+<polygon points="80,226 260,136 260,152 80,242" fill="#133a80"/>
+<polygon points="0,6 260,136 80,226 -180,96" fill="url(#tray)"/>
+<polygon points="0,6 242,136 74,226 -167,96" fill="#0b1f45" opacity=".55"/>
+<ellipse cx="0" cy="38" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-18 0 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="0" cy="0" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="0" cy="0" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="0" cy="0" r="2.6" fill="#0d316f"/>
+<ellipse cx="-40" cy="58" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-58 20 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="-40" cy="20" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="-40" cy="20" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="-40" cy="20" r="2.6" fill="#0d316f"/>
+<ellipse cx="40" cy="58" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M22 20 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="40" cy="20" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="40" cy="20" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="40" cy="20" r="2.6" fill="#0d316f"/>
+<ellipse cx="-80" cy="78" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-98 40 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="-80" cy="40" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="-80" cy="40" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="-80" cy="40" r="2.6" fill="#0d316f"/>
+<ellipse cx="0" cy="78" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-18 40 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="0" cy="40" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="0" cy="40" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="0" cy="40" r="2.6" fill="#0d316f"/>
+<ellipse cx="80" cy="78" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M62 40 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="80" cy="40" rx="18" ry="8" fill="#4db8e4" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="80" cy="40" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="80" cy="40" r="2.6" fill="#0d316f"/>
+<ellipse cx="-120" cy="98" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-138 60 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="-120" cy="60" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="-120" cy="60" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="-120" cy="60" r="2.6" fill="#0d316f"/>
+<ellipse cx="-40" cy="98" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-58 60 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="-40" cy="60" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="-40" cy="60" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="-40" cy="60" r="2.6" fill="#0d316f"/>
+<ellipse cx="40" cy="98" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M22 60 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="40" cy="60" rx="18" ry="8" fill="#5cb5d5" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="40" cy="60" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="40" cy="60" r="2.6" fill="#0d316f"/>
+<ellipse cx="120" cy="98" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M102 60 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="120" cy="60" rx="18" ry="8" fill="#81adb2" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="120" cy="60" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="120" cy="60" r="2.6" fill="#0d316f"/>
+<ellipse cx="-80" cy="118" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-98 80 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="-80" cy="80" rx="18" ry="8" fill="#38bdf8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="-80" cy="80" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="-80" cy="80" r="2.6" fill="#0d316f"/>
+<ellipse cx="0" cy="118" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-18 80 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="0" cy="80" rx="18" ry="8" fill="#55b7dc" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="0" cy="80" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="0" cy="80" r="2.6" fill="#0d316f"/>
+<ellipse cx="80" cy="118" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M62 80 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="80" cy="80" rx="18" ry="8" fill="#99a89b" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="80" cy="80" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="80" cy="80" r="2.6" fill="#0d316f"/>
+<ellipse cx="160" cy="118" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M142 80 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="160" cy="80" rx="18" ry="8" fill="#a9a48b" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="160" cy="80" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="160" cy="80" r="2.6" fill="#0d316f"/>
+<ellipse cx="-40" cy="138" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-58 100 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="-40" cy="100" rx="18" ry="8" fill="#3abcf6" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="-40" cy="100" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="-40" cy="100" r="2.6" fill="#0d316f"/>
+<ellipse cx="40" cy="138" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M22 100 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="40" cy="100" rx="18" ry="8" fill="#8eaaa5" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="40" cy="100" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="40" cy="100" r="2.6" fill="#0d316f"/>
+<ellipse cx="120" cy="138" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M102 100 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="120" cy="100" rx="18" ry="8" fill="#d49a61" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="120" cy="100" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="120" cy="100" r="2.6" fill="#0d316f"/>
+<ellipse cx="200" cy="138" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M182 100 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="200" cy="100" rx="18" ry="8" fill="#aea386" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="200" cy="100" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="200" cy="100" r="2.6" fill="#0d316f"/>
+<ellipse cx="0" cy="158" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M-18 120 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="0" cy="120" rx="18" ry="8" fill="#68b2c9" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="0" cy="120" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="0" cy="120" r="2.6" fill="#0d316f"/>
+<ellipse cx="80" cy="158" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M62 120 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="80" cy="120" rx="18" ry="8" fill="#be9f77" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="80" cy="120" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="80" cy="120" r="2.6" fill="#0d316f"/>
+<ellipse cx="160" cy="158" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M142 120 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="160" cy="120" rx="18" ry="8" fill="#e09856" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="160" cy="120" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="160" cy="120" r="2.6" fill="#0d316f"/>
+<ellipse cx="40" cy="178" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M22 140 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="40" cy="140" rx="18" ry="8" fill="#87abab" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="40" cy="140" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="40" cy="140" r="2.6" fill="#0d316f"/>
+<ellipse cx="120" cy="178" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M102 140 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="120" cy="140" rx="18" ry="8" fill="#c49e71" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="120" cy="140" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="120" cy="140" r="2.6" fill="#0d316f"/>
+<ellipse cx="80" cy="198" rx="22" ry="10" fill="#000" opacity=".22"/>
+<path d="M62 160 v36 a18 8 0 0 0 36 0 v-36 z" fill="url(#cellSide)"/>
+<ellipse cx="80" cy="160" rx="18" ry="8" fill="#8baba8" stroke="#fff" stroke-opacity=".7" stroke-width="1.2"/>
+<ellipse cx="80" cy="160" rx="11.2" ry="5.0" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1"/>
+<circle cx="80" cy="160" r="2.6" fill="#0d316f"/>
+</g></g><rect x="400" y="70" width="120" height="8" rx="4" fill="url(#heatbar)"/><text class="l" x="400" y="92">cold</text><text class="l" x="500" y="92">hot</text><text class="l" x="22" y="340">4 × 6 cylindrical cells · pack tray</text></g></g><g transform="translate(611 28)"><clipPath id="c2"><rect width="561" height="361" rx="18"/></clipPath>
+<rect class="panel" width="561" height="361" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c2)"><text class="t" x="22" y="40">Fast-Charging Protocols</text>
+<g transform="translate(30 60)"><line class="ax" x1="40" y1="250" x2="490" y2="250"/><line class="ax" x1="40" y1="20" x2="40" y2="250"/>
+<path d="M40 70 L160 70 L200 110 L300 110 L330 145 L420 145 L450 195 L490 195" fill="none" stroke="#026fc1" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M40 235 C 120 232, 200 180, 300 135 C 380 100, 440 92, 490 90" fill="none" stroke="#00abe9" stroke-width="3" stroke-dasharray="7 6"/>
+<line x1="40" y1="88" x2="490" y2="88" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4 5"/>
+<text class="l" x="46" y="50" fill="#026fc1">current</text><text class="l" x="488" y="112" fill="#00abe9" text-anchor="end">cell temperature</text><text class="l" x="46" y="104" fill="#f87171">plating limit</text><text class="l" x="490" y="268" text-anchor="end">time → 80% SOC</text>
+<circle cx="440" cy="40" r="18" fill="#00abe9"/><path transform="translate(431 31) scale(.75)" d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" fill="#fff"/></g></g></g><g transform="translate(28 411)"><clipPath id="c3"><rect width="561" height="361" rx="18"/></clipPath>
+<rect class="panel" width="561" height="361" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c3)"><text class="t" x="22" y="40">Aging Diagnostics &amp; Mitigation</text>
+<g transform="translate(30 60)"><line class="ax" x1="30" y1="250" x2="250" y2="250"/><line class="ax" x1="30" y1="20" x2="30" y2="250"/>
+<path d="M30 50 C 100 60, 160 110, 250 215" fill="none" stroke="#f87171" stroke-width="3.5"/><path d="M30 50 C 110 53, 180 68, 250 95" fill="none" stroke="#026fc1" stroke-width="3.5"/>
+<text class="l" x="36" y="40">capacity</text><text class="l" x="250" y="268" text-anchor="end">cycles</text><text class="l" x="175" y="86" fill="#026fc1">mitigated</text><text class="l" x="170" y="200" fill="#f87171">baseline</text></g>
+<g transform="translate(300 60)"><line class="ax" x1="30" y1="250" x2="240" y2="250"/><line class="ax" x1="30" y1="20" x2="30" y2="250"/>
+<path d="M40 250 A 60 60 0 0 1 160 250 L 220 100" fill="none" stroke="#0d316f" stroke-width="3.5"/><g fill="#00abe9"><circle cx="100" cy="190" r="5"/><circle cx="160" cy="250" r="5"/><circle cx="190" cy="175" r="5"/></g>
+<text class="l" x="36" y="40">−Z″</text><text class="l" x="240" y="268" text-anchor="end">Z′</text><text class="l" x="70" y="150">EIS · DDT</text></g></g></g><g transform="translate(611 411)"><clipPath id="c4"><rect width="561" height="361" rx="18"/></clipPath>
+<rect class="panel" width="561" height="361" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c4)"><text class="t" x="22" y="40">User-Aware Algorithms &amp; Validation</text>
+<g transform="translate(40 80)"><g fill="#026fc1"><rect x="0" y="50" width="30" height="150" rx="5"/><rect x="38" y="64" width="30" height="136" rx="5"/><rect x="76" y="56" width="30" height="144" rx="5"/><rect x="114" y="74" width="30" height="126" rx="5"/><rect x="152" y="40" width="30" height="160" rx="5"/></g>
+<g fill="#bae6fd"><rect x="190" y="150" width="30" height="50" rx="5"/><rect x="228" y="162" width="30" height="38" rx="5"/></g>
+<g class="l" text-anchor="middle"><text x="15" y="220">M</text><text x="53" y="220">T</text><text x="91" y="220">W</text><text x="129" y="220">T</text><text x="167" y="220">F</text><text x="205" y="220">S</text><text x="243" y="220">S</text></g>
+<text class="l" x="0" y="30">departure-time pattern</text>
+<path d="M285 125 h28 m-9 -9 l9 9 -9 9" fill="none" stroke="#64748b" stroke-width="2.5"/>
+<g transform="translate(335 20)" filter="url(#sh)"><rect width="150" height="170" rx="14" fill="url(#tray)"/><rect x="14" y="14" width="122" height="92" rx="8" fill="#0b1f45" stroke="#2a4a80"/>
+<g fill="url(#cellSide)"><rect x="34" y="28" width="22" height="64" rx="6"/><rect x="64" y="28" width="22" height="64" rx="6"/><rect x="94" y="28" width="22" height="64" rx="6"/></g>
+<g><circle cx="24" cy="140" r="5" fill="#00abe9"/><circle cx="42" cy="140" r="5" fill="#00abe9"/><circle cx="60" cy="140" r="5" fill="#fde68a"/></g></g>
+<text class="l" x="410" y="225" text-anchor="middle">testing chamber</text></g></g></g>
+</svg>

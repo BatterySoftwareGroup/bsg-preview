@@ -1,0 +1,40 @@
+# 교수 소개 페이지(/professor). 기존 Google Sites PI 페이지에서 이관.
+# 이름·사진·이메일은 members.yaml의 PI 항목을 사용합니다.
+# 비어 있는 항목(전화·사무실·수상·ORCID·CV)은 받으면 채우세요. 비우면 표시 안 됨.
+- id: pi
+  title: Assistant Professor
+  department: Department of Energy Engineering, Korea Institute of Energy Technology (KENTECH)
+  bio: >
+    The overarching goal in my research is to understand various dynamics in energy systems and
+    optimize their physical designs and algorithms by developing mathematical models. My research
+    interests span a wide range of topics from microstructures of materials and electrodes, and
+    battery cells, packs, and algorithms, to techno-economic evaluations of energy systems.
+  education:
+    - degree: Ph.D.
+      institution: Massachusetts Institute of Technology
+      year: 2019
+    - degree: MBA
+      institution: MIT Sloan School of Management
+      year: 2019
+    - degree: B.S., summa cum laude
+      institution: Seoul National University
+      year: 2008
+  experience:
+    - position: Assistant Professor
+      org: Korea Institute of Energy Technology (KENTECH)
+      period: 2022 –
+    - position: Software Engineer (BMS)
+      org: Apple
+      period: 2020 – 2022
+    - position: Postdoctoral Researcher
+      org: Argonne National Laboratory
+      period: 2019 – 2020
+    - position: Battery Modeling Intern Engineer
+      org: Tesla
+      period: 2017, 2018 (summers)
+    - position: Senior Engineer and Manager
+      org: Samsung SDI
+      period: 2012 – 2015
+  awards: []
+  scholar: https://scholar.google.com/citations?user=k7dqJSEAAAAJ
+  linkedin: https://www.linkedin.com/in/juhyunsong

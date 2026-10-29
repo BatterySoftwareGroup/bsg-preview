@@ -1,0 +1,42 @@
+# 연구 과제 (기존 사이트 News의 과제 수주 소식에서 추출). 종료일·과제명은 PI 확인 후 수정.
+# status: ongoing | completed
+- id: lges2025
+  title: Research grant from LG Energy Solution (2025)
+  sponsor: LG Energy Solution
+  period: 2025.03 –
+  status: ongoing
+- id: hmc2025
+  title: Research grant from Hyundai Motor Company (2025)
+  sponsor: Hyundai Motor Company
+  period: 2025.03 –
+  status: ongoing
+- id: tipa2024
+  title: Research grant from TIPA (with ATB Lab)
+  sponsor: Korea Technology & Information Promotion Agency (TIPA)
+  period: 2024.09 –
+  status: ongoing
+- id: lges2023
+  title: Research grant from LG Energy Solution (2023)
+  sponsor: LG Energy Solution
+  period: 2023.09 –
+  status: completed
+- id: kepco2023
+  title: KEPCO research grant (with Prof. Jonghoon Kim and Prof. Seok Gwang Doo)
+  sponsor: Korea Electric Power Corporation (KEPCO)
+  period: 2023.04 –
+  status: ongoing
+- id: nrf2023
+  title: Early Career Award Grant (우수신진연구)
+  sponsor: National Research Foundation of Korea (NRF)
+  period: 2023.02 –
+  status: ongoing
+- id: hmc2022
+  title: Research grant from Hyundai Motor Company (2022)
+  sponsor: Hyundai Motor Company
+  period: 2022.12 –
+  status: completed
+- id: sstf2022
+  title: Samsung Future Technology grant (with Prof. Youngtae Noh's group)
+  sponsor: Samsung Science & Technology Foundation
+  period: 2022.10 –
+  status: ongoing

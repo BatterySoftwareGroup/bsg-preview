@@ -1,0 +1,37 @@
+---
+// Zero-byte hero background: battery-cell outlines and ion dots drifting slowly over the CSS gradient.
+// Used when no hero video/image is set. Static single frame under prefers-reduced-motion.
+---
+<canvas id="hero-canvas" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+<script>
+  const c = document.getElementById('hero-canvas') as HTMLCanvasElement, ctx = c.getContext('2d')!;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rnd = (a: number, b: number) => a + Math.random() * (b - a);
+  let W = 0, H = 0;
+  const resize = () => { W = c.width = c.offsetWidth; H = c.height = c.offsetHeight; };
+  resize(); addEventListener('resize', resize);
+
+  // cells: rounded rectangles with a terminal nub; dots: ions. Both drift up-right and wrap around.
+  const narrow = W < 768; // fewer, smaller shapes on phones
+  const cells = Array.from({ length: narrow ? 7 : 14 }, () => ({ x: rnd(0, 1), y: rnd(0, 1), w: rnd(90, narrow ? 150 : 220), a: rnd(0.08, 0.25), v: rnd(0.3, 1) }));
+  const dots = Array.from({ length: narrow ? 35 : 70 }, () => ({ x: rnd(0, 1), y: rnd(0, 1), r: rnd(1, 2.5), a: rnd(0.2, 0.7), v: rnd(0.5, 1.5) }));
+
+  const draw = (t: number) => {
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineWidth = 2; ctx.lineCap = 'round';
+    for (const k of cells) {
+      const x = ((k.x + t * k.v * 0.004) % 1.2 - 0.1) * W, y = ((k.y - t * k.v * 0.003) % 1.2 + 1.2) % 1.2 * H - 0.1 * H;
+      const h = k.w * 0.55, g = ctx.createLinearGradient(x, y, x + k.w, y + h);
+      g.addColorStop(0, `rgba(0,171,233,${k.a})`); g.addColorStop(1, `rgba(0,171,233,${k.a * 0.3})`);
+      ctx.strokeStyle = g; ctx.fillStyle = `rgba(0,171,233,${k.a * 0.08})`;
+      ctx.beginPath(); ctx.roundRect(x, y, k.w, h, 10); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = `rgba(0,171,233,${k.a})`; ctx.fillRect(x + k.w, y + h * 0.35, 6, h * 0.3);
+    }
+    for (const d of dots) {
+      const x = ((d.x + t * d.v * 0.006) % 1) * W, y = ((d.y - t * d.v * 0.004) % 1 + 1) % 1 * H;
+      ctx.fillStyle = `rgba(160,225,255,${d.a})`; ctx.beginPath(); ctx.arc(x, y, d.r, 0, 7); ctx.fill();
+    }
+  };
+  if (still) draw(0);
+  else { const loop = (ms: number) => { draw(ms / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+</script>

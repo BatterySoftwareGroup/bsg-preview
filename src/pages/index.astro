@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PubItem from '../components/PubItem.astro';
+import NewsTag from '../components/NewsTag.astro';
+import HeroCanvas from '../components/HeroCanvas.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../site';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
+const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 4);
+const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
+const photos = (await getCollection('gallery')).map((g) => g.data).sort((a, b) => +b.date - +a.date).slice(0, 4);
+const h2 = 'text-2xl font-bold text-navy dark:text-white';
+const more = 'text-sm font-medium text-blue hover:underline';
+const poster = SITE.heroImage && `${base}${SITE.heroImage}`;
+---
+<Layout>
+  <!-- Hero: first screen before scrolling — background media + lab name + tagline + buttons -->
+  <section class="relative flex min-h-[70vh] items-center overflow-hidden bg-gradient-to-br from-ink via-navy to-blue text-white">
+    {SITE.heroVideo
+      ? <video class="absolute inset-0 h-full w-full object-cover" data-src={`${base}${SITE.heroVideo}`} poster={poster} autoplay muted loop playsinline preload="none" />
+      : poster ? <img class="absolute inset-0 h-full w-full object-cover" src={poster} alt="" />
+      : <HeroCanvas />}
+    <!-- dark gradient so text stays legible over any media -->
+    <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-navy/40 to-transparent"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-4 py-20 md:py-28 lg:px-8" data-stagger>
+      <p class="font-mono text-sm font-extrabold tracking-widest text-sky uppercase">{SITE.affiliation}</p>
+      <h1 class="mt-3 text-4xl font-bold leading-tight md:text-6xl">{SITE.fullName}</h1>
+      <p class="mt-2 text-xl text-slate-200 md:text-2xl">{SITE.fullNameKo || SITE.department || SITE.affiliationFull}</p>
+      <p class="mt-6 max-w-2xl text-lg text-slate-200 md:text-xl">{SITE.tagline}</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href={`${base}/research`} class="rounded-full bg-white px-6 py-2.5 font-semibold text-navy hover:bg-sky hover:text-white">Research</a>
+        <a href={`${base}/members`} class="rounded-full border border-white/60 px-6 py-2.5 font-semibold hover:bg-white/10">Members</a>
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    // Load the hero video only on wide screens without data-saver; others keep the poster image.
+    const v = document.querySelector('video[data-src]');
+    if (v && matchMedia('(min-width: 768px)').matches && !navigator.connection?.saveData) v.src = v.dataset.src;
+  </script>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 lg:px-8 lg:py-20">
+    <div class="reveal flex items-baseline justify-between"><h2 class={h2}>Research</h2><a href={`${base}/research`} class={more}>View all →</a></div>
+    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
+      {topics.map((t, i) => (
+        <a href={`${base}/research/${t.id}`} class="group overflow-hidden rounded-2xl border border-slate-200 transition hover:shadow-md dark:border-slate-700">
+          {(t.data.cover ?? t.data.image) && <img src={`${base}${t.data.cover ?? t.data.image}`} alt="" class="aspect-[3/2] w-full object-cover" />}
+          <div class="p-4">
+            <p class="font-mono text-xs font-extrabold text-sky">{String(i + 1).padStart(2, '0')}</p>
+            <p class="mt-1 font-bold group-hover:text-blue">{t.data.title}</p>
+            <p class="mt-1 line-clamp-2 text-sm text-slate-600 dark:text-slate-300">{t.data.summary}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-slate-50 dark:bg-slate-800/50">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 py-14 md:grid-cols-2 lg:px-8 lg:py-20">
+      <div class="reveal">
+        <div class="flex items-baseline justify-between"><h2 class={h2}>Recent Publications</h2><a href={`${base}/publications`} class={more}>View all →</a></div>
+        <ul class="mt-5 space-y-5">{pubs.map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
+      </div>
+      <div class="reveal">
+        <div class="flex items-baseline justify-between"><h2 class={h2}>News</h2><a href={`${base}/news`} class={more}>View all →</a></div>
+        <ul class="mt-5 divide-y divide-slate-200 dark:divide-slate-700">
+          {news.map((n) => (
+            <li class="flex flex-wrap items-center gap-x-3 py-3"><time class="font-mono text-sm text-slate-500">{n.data.date.toISOString().slice(0, 10)}</time><NewsTag category={n.data.category} /><span class="font-medium">{n.data.title}</span></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 lg:px-8 lg:py-20">
+    <div class="reveal flex items-baseline justify-between"><h2 class={h2}>Gallery</h2><a href={`${base}/gallery`} class={more}>View all →</a></div>
+    <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4" data-stagger>
+      {photos.map((g) => <a href={`${base}/gallery`}><img src={`${base}${g.image}`} alt={g.caption} class="aspect-[3/2] w-full rounded-xl object-cover" loading="lazy" /></a>)}
+    </div>
+  </section>
+</Layout>

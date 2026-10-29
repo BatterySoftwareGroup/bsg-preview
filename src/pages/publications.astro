@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
+import PubItem from '../components/PubItem.astro';
+import { getCollection } from 'astro:content';
+const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
+const tabs = [['journal', 'Journal'], ['conference', 'Conference'], ['patent', 'Patent'], ['book', 'Book Chapters']];
+---
+<Layout title="Publications">
+<Container title="Publications">
+  <p class="text-sm text-slate-500">* Corresponding author, † Equal contribution.</p>
+
+  <!-- Type tabs: hidden radio inputs + CSS sibling selector, no JS. Inputs must stay direct siblings of the panels. -->
+  {tabs.map(([t], i) => <input type="radio" name="tab" id={`tab-${t}`} class="hidden" checked={i === 0} />)}
+  <div class="mt-6 flex flex-wrap items-center gap-2">
+    {tabs.map(([t, label]) => <label for={`tab-${t}`} class="cursor-pointer rounded-full border border-slate-300 px-4 py-1 text-sm font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">{label} <span class="text-slate-400">{pubs.filter((p) => p.data.type === t).length}</span></label>)}
+    <input id="q" type="search" placeholder="Search title, author, venue…" class="ml-auto w-full rounded-full border border-slate-300 px-4 py-1.5 text-sm sm:w-72 dark:border-slate-600 dark:bg-slate-800" />
+  </div>
+
+  {tabs.map(([t]) => {
+    const list = pubs.filter((p) => p.data.type === t);
+    const years = [...new Set(list.map((p) => p.data.year))];
+    return (
+      <div data-tab={t} class="tabpanel">
+        {years.map((y) => (
+          <section class="year mt-8">
+            <h2 class="text-xl font-semibold">{y}</h2>
+            <ul class="mt-3 space-y-4">{list.filter((p) => p.data.year === y).map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
+          </section>
+        ))}
+        {list.length === 0 && <p class="mt-8 text-slate-500">No entries yet.</p>}
+        <p class="no-match mt-8 hidden text-slate-500">No matching publications.</p>
+      </div>
+    );
+  })}
+</Container>
+</Layout>
+
+<style>
+  .tabpanel { display: none; }
+  #tab-journal:checked ~ [data-tab='journal'],
+  #tab-conference:checked ~ [data-tab='conference'],
+  #tab-patent:checked ~ [data-tab='patent'],
+  #tab-book:checked ~ [data-tab='book'] { display: block; }
+  #tab-journal:checked ~ div label[for='tab-journal'],
+  #tab-conference:checked ~ div label[for='tab-conference'],
+  #tab-patent:checked ~ div label[for='tab-patent'],
+  #tab-book:checked ~ div label[for='tab-book'] { background: #026fc1; border-color: #026fc1; color: #fff; }
+</style>
+
+<script>
+  // Search: hide entries whose text doesn't contain every word; hide years left empty.
+  const q = document.getElementById('q') as HTMLInputElement;
+  q.addEventListener('input', () => {
+    const words = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+    document.querySelectorAll<HTMLElement>('.pub').forEach((li) => {
+      const t = li.textContent!.toLowerCase();
+      li.hidden = !words.every((w) => t.includes(w));
+    });
+    document.querySelectorAll<HTMLElement>('.year').forEach((s) => (s.hidden = !s.querySelector('.pub:not([hidden])')));
+    document.querySelectorAll<HTMLElement>('.tabpanel').forEach((p) => p.querySelector<HTMLElement>('.no-match')!.classList.toggle('hidden', !!p.querySelector('.pub:not([hidden])') || !p.querySelector('.pub')));
+  });
+</script>

@@ -1,0 +1,7 @@
+---
+// Small category chip for news items.
+const { category } = Astro.props;
+const style = { paper: 'bg-blue/10 text-blue', grant: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400', award: 'bg-amber-500/10 text-amber-700 dark:text-amber-400', event: 'bg-slate-500/10 text-slate-600 dark:text-slate-300' }[category];
+const label = { paper: 'Paper', grant: 'Grant', award: 'Award', event: 'Event' }[category];
+---
+<span class:list={['inline-block rounded-full px-2 py-0.5 text-xs font-semibold', style]}>{label}</span>

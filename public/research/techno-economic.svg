@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Techno-economic evaluations: energy-system diagram, manufacturing cost breakdown, storage dispatch under uncertainty, battery cost decline">
+<defs>
+<linearGradient id="cellSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7dd3fc"/><stop offset=".45" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0d316f"/></linearGradient>
+<linearGradient id="tray" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d4ed8"/><stop offset="1" stop-color="#0d316f"/></linearGradient>
+<radialGradient id="sphere" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#bae6fd"/><stop offset=".45" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0d316f"/></radialGradient>
+<linearGradient id="bld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#0d316f"/></linearGradient>
+<linearGradient id="heatbar" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+<filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#0d316f" flood-opacity=".22"/></filter>
+<filter id="card"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0d316f" flood-opacity=".06"/></filter>
+<style>
+.panel{fill:#fff;stroke:#e2e8f0;stroke-width:1.5}
+.t{font-family:Pretendard Variable, Inter, system-ui, sans-serif;font-size:17px;font-weight:700;fill:#0d316f}
+.l{font-family:Pretendard Variable, Inter, system-ui, sans-serif;font-size:11px;fill:#64748b}
+.ax{stroke:#cbd5e1;stroke-width:1.5}
+</style>
+</defs>
+<rect width="1200" height="800" fill="#f8fafc"/>
+<g transform="translate(28 28)"><clipPath id="c1"><rect width="1144" height="374" rx="18"/></clipPath>
+<rect class="panel" width="1144" height="374" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c1)"><text class="t" x="22" y="40">Economic Viability of Energy Systems</text>
+<g transform="translate(40 50) scale(.985)"><g fill="none" stroke="#00abe9" stroke-width="3" stroke-dasharray="12 9"><path d="M250 90 C 290 90, 350 130, 430 130"/><path d="M250 175 C 290 175, 350 140, 430 135"/><path d="M640 135 C 730 135, 730 130, 820 130"/></g>
+<g stroke="#0d316f" stroke-width="5" stroke-linecap="round" fill="none"><path d="M80 200 V70 M80 70 l-28 -32 M80 70 l38 -18 M80 70 l-8 42"/><path d="M170 200 V95 M170 95 l-24 -28 M170 95 l32 -14 M170 95 l-6 38"/></g>
+<g fill="#00abe9"><circle cx="80" cy="70" r="6"/><circle cx="170" cy="95" r="6"/></g>
+<g fill="url(#bld)" stroke="#0d316f" stroke-width="1.5"><rect x="70" y="170" width="60" height="30" rx="3" transform="skewX(-15)"/><rect x="140" y="170" width="60" height="30" rx="3" transform="skewX(-15)"/><rect x="210" y="170" width="60" height="30" rx="3" transform="skewX(-15)"/></g>
+<g filter="url(#sh)" transform="translate(0 0)"><rect x="430" y="70" width="210" height="130" rx="12" fill="url(#tray)"/>
+<g fill="#fff" stroke="#00abe9" stroke-width="2"><rect x="452" y="92" width="50" height="86" rx="5"/><rect x="510" y="92" width="50" height="86" rx="5"/><rect x="568" y="92" width="50" height="86" rx="5"/></g>
+<g fill="#00abe9"><rect x="458" y="142" width="38" height="30" rx="2"/><rect x="516" y="124" width="38" height="48" rx="2"/><rect x="574" y="106" width="38" height="66" rx="2"/></g></g>
+<g fill="url(#bld)" stroke="#0d316f" stroke-width="1.5" transform="translate(0 0)"><rect x="830" y="110" width="40" height="90" rx="2"/><rect x="880" y="60" width="50" height="140" rx="2"/><rect x="940" y="120" width="35" height="80" rx="2"/><rect x="985" y="85" width="55" height="115" rx="2"/><rect x="1050" y="140" width="30" height="60" rx="2"/></g>
+<g fill="#e0f2fe" transform="translate(0 0)"><rect x="890" y="72" width="7" height="9"/><rect x="906" y="72" width="7" height="9"/><rect x="890" y="96" width="7" height="9"/><rect x="920" y="120" width="7" height="9"/><rect x="906" y="144" width="7" height="9"/><rect x="996" y="96" width="7" height="9"/><rect x="1014" y="96" width="7" height="9"/><rect x="1028" y="120" width="7" height="9"/><rect x="996" y="144" width="7" height="9"/><rect x="840" y="120" width="7" height="9"/><rect x="856" y="144" width="7" height="9"/><rect x="952" y="134" width="7" height="9"/></g>
+<line x1="40" y1="202" x2="1090" y2="202" stroke="#cbd5e1" stroke-width="2"/>
+<g transform="translate(690 0)"><path d="M0 60 A 60 60 0 0 1 120 60" fill="none" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round"/><path d="M0 60 A 60 60 0 0 1 74 6" fill="none" stroke="#00abe9" stroke-width="12" stroke-linecap="round"/><line x1="60" y1="60" x2="84" y2="18" stroke="#0d316f" stroke-width="5" stroke-linecap="round"/><circle cx="60" cy="60" r="7" fill="#0d316f"/></g></g><g class="l"><text x="100" y="298">wind · solar</text><text x="565" y="298" text-anchor="middle">stationary storage</text><text x="985" y="298" text-anchor="middle">grid · demand</text><text x="779" y="140" fill="#0d316f" font-weight="700" text-anchor="middle">$/kWh</text></g></g></g><g transform="translate(28 424)"><clipPath id="c2"><rect width="366" height="348" rx="18"/></clipPath>
+<rect class="panel" width="366" height="348" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c2)"><text class="t" x="22" y="40">Manufacturing Cost</text>
+<g transform="translate(26 60)"><g class="l"><text x="0" y="28">cathode</text><text x="0" y="68">anode</text><text x="0" y="108">electrolyte</text><text x="0" y="148">cell process</text><text x="0" y="188">pack</text></g>
+<g fill="#026fc1"><rect x="90" y="14" width="230" height="20" rx="5"/><rect x="90" y="54" width="100" height="20" rx="5" opacity=".75"/><rect x="90" y="94" width="70" height="20" rx="5" opacity=".55"/><rect x="90" y="134" width="150" height="20" rx="5" opacity=".75"/><rect x="90" y="174" width="120" height="20" rx="5" opacity=".55"/></g>
+<text class="l" x="90" y="230">illustrative shares · process-based cost model</text></g></g></g><g transform="translate(417 424)"><clipPath id="c3"><rect width="366" height="348" rx="18"/></clipPath>
+<rect class="panel" width="366" height="348" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c3)"><text class="t" x="22" y="40">Long-duration Storage</text>
+<g transform="translate(22 60)"><line class="ax" x1="30" y1="230" x2="320" y2="230"/><line class="ax" x1="30" y1="20" x2="30" y2="230"/>
+<path d="M30 170 C 80 50, 130 50, 180 160 S 270 220, 320 125 L 320 80 C 270 185, 230 105, 180 105 S 80 20, 30 125 Z" fill="#bae6fd" opacity=".7"/><path d="M30 150 C 80 35, 130 35, 180 132 S 270 205, 320 102" fill="none" stroke="#00abe9" stroke-width="3.5"/><path d="M30 165 L 100 165 L 100 105 L 200 105 L 200 190 L 320 190" fill="none" stroke="#0d316f" stroke-width="3" stroke-dasharray="6 5"/>
+<text class="l" x="36" y="40" fill="#00abe9">generation ± uncertainty</text><text class="l" x="210" y="182" fill="#0d316f">dispatch</text><text class="l" x="320" y="250" text-anchor="end">hours → days</text></g></g></g><g transform="translate(806 424)"><clipPath id="c4"><rect width="366" height="348" rx="18"/></clipPath>
+<rect class="panel" width="366" height="348" rx="18" filter="url(#card)"/>
+<g clip-path="url(#c4)"><text class="t" x="22" y="40">Battery Cost Decline</text>
+<g transform="translate(22 60)"><line class="ax" x1="30" y1="230" x2="320" y2="230"/><line class="ax" x1="30" y1="20" x2="30" y2="230"/>
+<path d="M35 30 C 90 40, 120 140, 180 180 S 280 212, 320 216" fill="none" stroke="#0d316f" stroke-width="4"/><path d="M180 180 C 230 202, 280 216, 320 220" fill="none" stroke="#00abe9" stroke-width="4" stroke-dasharray="7 6"/><circle cx="180" cy="180" r="7" fill="#00abe9"/>
+<text class="l" x="36" y="40">$/kWh</text><text class="l" x="320" y="250" text-anchor="end">year</text><text class="l" x="60" y="130">R&amp;D · scale · chemistry</text><text class="l" x="235" y="170" fill="#00abe9">projection</text></g></g></g>
+</svg>

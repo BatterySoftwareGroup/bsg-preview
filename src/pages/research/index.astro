@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import { getCollection } from 'astro:content';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+---
+<Layout title="Research">
+<Container title="Research">
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
+    {topics.map((t, i) => (
+      <a href={`${base}/research/${t.id}`} class="group overflow-hidden rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md dark:border-slate-700">
+        {(t.data.cover ?? t.data.image) && <img src={`${base}${t.data.cover ?? t.data.image}`} alt="" class="aspect-[3/2] w-full object-cover transition group-hover:scale-[1.02]" />}
+        <div class="p-6">
+          <p class="font-mono text-xs font-extrabold text-sky">{String(i + 1).padStart(2, '0')}</p>
+          <h2 class="mt-1 text-xl font-bold text-navy group-hover:text-blue dark:text-white">{t.data.title}</h2>
+          <p class="mt-2 text-slate-600 dark:text-slate-300">{t.data.summary}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</Container>
+</Layout>

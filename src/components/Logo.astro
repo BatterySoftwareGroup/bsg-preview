@@ -1,0 +1,6 @@
+---
+// BSG wordmark (public/logo/bsg.svg). Height is set by the parent via class.
+const { class: cls = 'h-8' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<img src={`${base}/logo/bsg.svg`} alt="BSG" class={`w-auto ${cls}`} />

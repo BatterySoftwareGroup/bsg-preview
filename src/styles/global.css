@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Brand tokens from the logo (docs/logo-spec.jpg). Use as bg-navy, text-sky, etc. */
+@theme {
+  --color-navy: #0d316f;
+  --color-blue: #026fc1;
+  --color-sky: #00abe9;
+  --color-ink: #0d1c31;
+  --font-sans: "Pretendard Variable", Pretendard, Inter, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+/* Scroll-reveal: hidden only after JS runs (html.js), so crawlers / no-JS see everything. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js :is(.reveal, [data-stagger] > *) { opacity: 0; translate: 0 16px; transition: opacity .5s ease, translate .5s ease; }
+  html.js :is(.reveal.in, [data-stagger].in > *) { opacity: 1; translate: 0; }
+  /* stagger children 80ms apart, capped so long grids don't drag */
+  html.js [data-stagger].in > * { transition-delay: min(calc((sibling-index() - 1) * 80ms), 480ms); }
+}
+
+@plugin "@tailwindcss/typography";

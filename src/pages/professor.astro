@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
+import PubItem from '../components/PubItem.astro';
+import { getCollection, getEntry } from 'astro:content';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pi = (await getCollection('members')).find((m) => m.data.role === 'PI')!.data;
+const prof = (await getEntry('professor', 'pi'))!.data;
+const recent = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
+const links = [['CV', prof.cv], ['Google Scholar', prof.scholar], ['ORCID', prof.orcid], ['LinkedIn', prof.linkedin]].filter(([, u]) => u);
+---
+<Layout title="Professor">
+<Container>
+  <div class="grid gap-10 md:grid-cols-[260px_1fr]">
+    <div>
+      {pi.photo && <img src={`${base}${pi.photo}`} alt={pi.name} class="aspect-[3/4] w-full rounded-2xl object-cover object-top shadow-md" />}
+      <div class="mt-5 space-y-1 text-sm">
+        {pi.email && <a href={`mailto:${pi.email}`} class="block text-blue hover:underline">{pi.email}</a>}
+        {links.map(([label, url]) => <a href={url} class="block text-slate-600 hover:underline dark:text-slate-300">{label} ↗</a>)}
+      </div>
+    </div>
+    <div>
+      <h1 class="text-3xl font-bold text-navy md:text-4xl dark:text-white">{pi.name} <span class="text-xl font-normal text-slate-500">{pi.name_ko}</span></h1>
+      <p class="mt-1 text-lg">{prof.title}</p>
+      <p class="text-slate-500">{prof.department}</p>
+      <p class="mt-6 max-w-2xl leading-relaxed">{prof.bio}</p>
+      {pi.interests && <p class="mt-4"><span class="font-semibold">Research interests:</span> {pi.interests}</p>}
+
+      <h2 class="mt-10 text-xl font-bold text-navy dark:text-white">Education</h2>
+      <ul class="mt-3 space-y-2">{prof.education.map((e) => <li><span class="mr-3 font-mono text-sm text-slate-500">{e.year}</span>{e.degree}, {e.institution}</li>)}</ul>
+
+      <h2 class="mt-10 text-xl font-bold text-navy dark:text-white">Experience</h2>
+      <ul class="mt-3 space-y-2">{prof.experience.map((e) => <li><span class="mr-3 font-mono text-sm text-slate-500">{e.period}</span>{e.position}, {e.org}</li>)}</ul>
+
+      {prof.awards.length > 0 && <>
+        <h2 class="mt-10 text-xl font-bold text-navy dark:text-white">Awards</h2>
+        <ul class="mt-3 list-disc space-y-1 pl-5">{prof.awards.map((a) => <li>{a}</li>)}</ul>
+      </>}
+
+      {recent.length > 0 && <>
+        <h2 class="mt-10 text-xl font-bold text-navy dark:text-white">Latest Publications</h2>
+        <ul class="mt-3 space-y-4">{recent.map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
+        <a href={`${base}/publications`} class="mt-4 inline-block text-blue hover:underline">All publications →</a>
+      </>}
+    </div>
+  </div>
+</Container>
+</Layout>

@@ -1,0 +1,145 @@
+# 구성원 목록 (기존 Google Sites에서 이관, 2026-10-29).
+# id: 영문 소문자, 고유값. 사진은 public/members/<id>.jpg (정사각 600×600, JPG ≤ 300 KB).
+# role: PI | Postdoc | PhD | MS | BS | Staff | Alumni   (석박통합은 PhD)
+# name_ko: 한글 이름 — 받으면 채우세요. 비우면 표시 안 됨.
+# Alumni: period에 재학 기간, current에 현 소속.
+
+- id: jsong
+  name: Juhyun Song
+  name_ko: ''
+  role: PI
+  email: jsong@kentech.ac.kr
+  photo: /members/jsong.jpg
+  interests: Battery modeling, BMS algorithms, electrochemistry, techno-economic evaluation of energy systems
+  homepage: https://scholar.google.com/citations?user=k7dqJSEAAAAJ
+
+- id: gspark
+  name: Gyeomson Park
+  name_ko: ''
+  role: PhD
+  period: 2022.10 –
+  email: gspark@kentech.ac.kr
+  photo: /members/gspark.jpg
+  interests: Battery degradation model; diagnosis and prognosis
+
+- id: swheo
+  name: Seong-Wook Heo
+  name_ko: ''
+  role: PhD
+  period: 2024.01 –
+  email: hamoheo@kentech.ac.kr
+  photo: /members/swheo.jpg
+  interests: Direct recycling for spent Li-ion batteries; modeling of metal anodes
+
+- id: jskim
+  name: Jun Sub Kim
+  name_ko: ''
+  role: PhD
+  period: 2024.01 –
+  email: gmdms98@kentech.ac.kr
+  photo: /members/jskim.jpg
+  interests: Battery EIS analysis; battery prognosis and diagnosis
+
+- id: sjahn
+  name: Sungju Ahn
+  name_ko: ''
+  role: PhD
+  period: 2025.02 –
+  email: shahn@kentech.ac.kr
+  photo: /members/sjahn.jpg
+  interests: DFC-based battery lifetime extension; data-driven ISC prediction
+
+- id: cwjung
+  name: Chulwon Jung
+  name_ko: ''
+  role: PhD
+  period: 2025.02 –
+  email: chulwon@kentech.ac.kr
+  photo: /members/cwjung.jpg
+  interests: Prognostics and health management; fault diagnosis
+
+- id: hblee
+  name: Hyunbin Lee
+  name_ko: ''
+  role: PhD
+  period: 2026.02 –
+  email: hblee@kentech.ac.kr
+  photo: /members/hblee.jpg
+  interests: Battery state estimation
+
+- id: jekim
+  name: Jueun Kim
+  name_ko: ''
+  role: MS
+  period: 2025.02 –
+  email: jekim@kentech.ac.kr
+  photo: /members/jekim.jpg
+  interests: ''
+
+- id: yjsim
+  name: Yongjin Sim
+  name_ko: ''
+  role: MS
+  period: 2026.02 –
+  email: dydvkfa@kentech.ac.kr
+  photo: /members/yjsim.jpg
+  interests: ''
+
+- id: sjlee
+  name: Seojun Lee
+  name_ko: ''
+  role: Staff
+  period: 2026.10 –
+  email: seojun2@kentech.ac.kr
+  photo: /members/sjlee.jpg
+  interests: ''
+
+- id: msseo
+  name: Minseong Seo
+  name_ko: ''
+  role: BS
+  period: 2026.09 –
+  email: alstjd5628@kentech.ac.kr
+  photo: /members/msseo.jpg
+  interests: ''
+
+# ---------- Alumni ----------
+- id: eschoi
+  name: Eun-Sik Choi
+  name_ko: ''
+  role: Alumni
+  period: 2024.02 – 2026.02 (M.S.)
+  email: ces3674@kentech.ac.kr
+  current: ''
+
+- id: yrjung
+  name: Yoorim Jung
+  name_ko: ''
+  role: Alumni
+  period: 2023.02 – 2025.08 (M.S.)
+  email: yjung@kentech.ac.kr
+  current: ''
+
+- id: yrjeon
+  name: Yerin Jeon
+  name_ko: ''
+  role: Alumni
+  period: 2023.10 – 2025.08 (M.S.)
+  email: cinnamoroll@kentech.ac.kr
+  current: ''
+
+- id: jykim
+  name: Junyeon Kim
+  name_ko: ''
+  role: Alumni
+  period: 2023.02 – 2025.02 (M.S.)
+  email: deu04152@kentech.ac.kr
+  current: ''
+
+- id: wjsong
+  name: Woojin Song
+  name_ko: ''
+  role: Alumni
+  period: 2022.10 – 2025.02 (M.S.)
+  email: wsong@kentech.ac.kr
+  current: ''

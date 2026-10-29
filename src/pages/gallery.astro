@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
+import { getCollection } from 'astro:content';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const photos = (await getCollection('gallery')).map((g) => g.data).sort((a, b) => +b.date - +a.date);
+---
+<Layout title="Gallery">
+<Container title="Gallery">
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
+    {photos.map((g) => (
+      <figure>
+        <button type="button" class="lightbox-open block w-full cursor-zoom-in" data-src={`${base}${g.image}`} data-caption={g.caption}>
+          <img src={`${base}${g.image}`} alt={g.caption} class="aspect-[3/2] w-full rounded-xl object-cover" loading="lazy" />
+        </button>
+        <figcaption class="mt-2 text-sm text-slate-600 dark:text-slate-300"><span class="mr-2 font-mono text-xs text-slate-400">{g.date.toISOString().slice(0, 10)}</span>{g.caption}</figcaption>
+      </figure>
+    ))}
+  </div>
+
+  <!-- Lightbox: native <dialog>; clicking the dark backdrop or pressing Esc closes it -->
+  <dialog id="lightbox" class="m-auto max-h-[92vh] max-w-[92vw] rounded-xl bg-transparent p-0 backdrop:bg-black/85">
+    <img class="max-h-[85vh] max-w-[92vw] object-contain" alt="" />
+    <p class="mt-2 text-center text-sm text-white"></p>
+  </dialog>
+  <script>
+    const dlg = document.getElementById('lightbox') as HTMLDialogElement;
+    const img = dlg.querySelector('img')!, cap = dlg.querySelector('p')!;
+    document.querySelectorAll<HTMLButtonElement>('.lightbox-open').forEach((b) => b.onclick = () => {
+      img.src = b.dataset.src!; cap.textContent = b.dataset.caption!; dlg.showModal();
+    });
+    dlg.onclick = (e) => e.target === dlg && dlg.close(); // backdrop click only
+  </script>
+</Container>
+</Layout>

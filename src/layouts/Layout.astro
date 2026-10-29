@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site';
+import Logo from '../components/Logo.astro';
+const { title } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const nav = [['/', 'Home'], ['/research', 'Research'], ['/professor', 'Professor'], ['/members', 'Members'], ['/publications', 'Publications'], ['/projects', 'Projects'], ['/news', 'News'], ['/gallery', 'Gallery'], ['/contact', 'Contact']];
+const path = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
+const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{title ? `${title} | ${SITE.name}` : `${SITE.name} · ${SITE.fullName}`}</title>
+    <meta name="description" content={SITE.tagline} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap" />
+    <meta property="og:title" content={title ? `${title} | ${SITE.name}` : SITE.fullName} />
+    <meta property="og:description" content={SITE.tagline} />
+    <meta property="og:image" content={new URL(`${base}/og.png`, Astro.site)} />
+    <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
+  </head>
+  <body class="flex min-h-screen flex-col bg-white font-sans text-slate-800 dark:bg-slate-900 dark:text-slate-100">
+    <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-700 dark:bg-slate-900/90">
+      <div class="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3 lg:px-8">
+        {partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener" class="shrink-0"><img src={partner} alt={SITE.affiliation} class="h-7 md:h-8" /></a>}
+        <a href={`${base}/`} class:list={['flex items-center gap-3', partner && 'border-l border-slate-300 pl-4 dark:border-slate-600']}><Logo class="h-8 md:h-9" /><span class="text-lg font-bold md:text-xl">{SITE.name}</span></a>
+        <nav class="ml-auto hidden gap-6 text-[15px] font-medium lg:flex">
+          {nav.map(([href, label]) => <a href={`${base}${href}`} class:list={['hover:text-blue', (href === '/' ? path === '/' : path.startsWith(href)) && 'text-blue']}>{label}</a>)}
+        </nav>
+        <button id="menu-open" class="ml-auto p-2 lg:hidden" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile menu: full-screen panel that fades/slides in (pattern used by Samsung SDI, LG ES, Apple, Tesla). -->
+    <aside id="drawer" class="invisible fixed inset-0 z-40 flex -translate-y-3 flex-col bg-white opacity-0 transition-[opacity,transform,visibility] duration-300 lg:hidden dark:bg-slate-900" aria-hidden="true">
+      <div class="flex items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-700">
+        <Logo class="h-7" />
+        <button id="menu-close" class="p-2" aria-label="Close menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </div>
+      <nav class="flex flex-col px-5 py-2 text-xl">
+        {nav.map(([href, label]) => <a href={`${base}${href}`} class:list={['border-b border-slate-100 py-4 font-medium dark:border-slate-800', (href === '/' ? path === '/' : path.startsWith(href)) && 'text-blue']}>{label}</a>)}
+      </nav>
+      {partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener" class="mt-auto mb-6 self-start px-5"><img src={partner} alt={SITE.affiliation} class="h-8" /></a>}
+    </aside>
+    <script>
+      const drawer = document.getElementById('drawer')!, open = document.getElementById('menu-open')!;
+      const set = (on: boolean) => {
+        for (const c of ['invisible', 'opacity-0', '-translate-y-3']) drawer.classList.toggle(c, !on);
+        document.body.classList.toggle('overflow-hidden', on);
+        drawer.setAttribute('aria-hidden', String(!on)); open.setAttribute('aria-expanded', String(on));
+      };
+      open.onclick = () => set(true);
+      document.getElementById('menu-close')!.onclick = () => set(false);
+      addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
+
+      // Scroll-reveal: play once when an element enters the viewport (CSS in global.css).
+      const io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { rootMargin: '0px 0px -10%' });
+      document.querySelectorAll('.reveal, [data-stagger]').forEach((el) => io.observe(el));
+    </script>
+
+    <main class="flex-1"><slot /></main>
+
+    <footer class="bg-ink text-slate-300">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3 lg:px-8">
+        <div>
+          <div class="flex items-center gap-4">{partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener"><img src={partner} alt={SITE.affiliation} class="h-8 brightness-0 invert" /></a>}<Logo class="h-8" /></div>
+          <p class="mt-4 text-lg font-bold text-white">{SITE.fullName}</p>
+          {SITE.fullNameKo && <p>{SITE.fullNameKo}</p>}
+          <p class="mt-2 text-sm">{SITE.department && `${SITE.department}, `}{SITE.affiliationFull}</p>
+        </div>
+        <div class="text-sm">
+          <p>{SITE.address}</p>
+          <a href={`mailto:${SITE.email}`} class="hover:text-white">{SITE.email}</a>
+        </div>
+        <nav class="flex flex-col gap-1 text-sm md:items-end">
+          {nav.map(([href, label]) => <a href={`${base}${href}`} class="hover:text-white">{label}</a>)}
+          {SITE.github && <a href={SITE.github} class="hover:text-white">GitHub</a>}
+        </nav>
+      </div>
+      <p class="border-t border-slate-700 py-4 text-center text-xs text-slate-500">© {new Date().getFullYear()} {SITE.name}, {SITE.affiliation}</p>
+    </footer>
+  </body>
+</html>

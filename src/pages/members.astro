@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
+import MemberCard from '../components/MemberCard.astro';
+import { getCollection } from 'astro:content';
+const groups = [['Postdoc', 'Postdoctoral Researchers', 'Postdoc'], ['PhD', 'Ph.D. / M.S.–Ph.D. Students', 'Ph.D.'], ['MS', 'M.S. Students', 'M.S.'], ['Staff', 'Researchers & Staff', 'Researcher'], ['BS', 'Undergraduate Students', 'Undergrad']];
+// Sort by admission date (period starts with "YYYY.MM"), then by surname; missing period goes last.
+const surname = (m: any) => m.name.split(' ').pop();
+const byPeriod = (a: any, b: any) => (a.period ?? '9').localeCompare(b.period ?? '9') || surname(a).localeCompare(surname(b));
+const members = (await getCollection('members')).map((m) => m.data);
+const pi = members.find((m) => m.role === 'PI');
+const alumni = members.filter((m) => m.role === 'Alumni').sort(byPeriod).reverse();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="Members">
+<Container title="Members">
+  {pi && (
+    <a href={`${base}/professor`} class="reveal flex flex-col gap-6 rounded-2xl bg-gradient-to-r from-navy to-blue p-6 text-white shadow-md transition hover:shadow-lg sm:flex-row sm:items-center md:gap-10 md:p-8">
+      {pi.photo && <img src={`${base}${pi.photo}`} alt={pi.name} class="aspect-[3/4] w-40 shrink-0 rounded-xl object-cover object-top shadow-lg md:w-48" />}
+      <div>
+        <p class="font-mono text-xs font-extrabold tracking-widest text-sky uppercase">Professor</p>
+        <p class="mt-1 text-3xl font-bold">{pi.name} <span class="text-lg font-normal text-slate-200">{pi.name_ko}</span></p>
+        {pi.interests && <p class="mt-3 max-w-xl text-slate-200">{pi.interests}</p>}
+        <p class="mt-4 text-sm font-semibold underline underline-offset-4">Profile →</p>
+      </div>
+    </a>
+  )}
+
+  {groups.map(([role, heading, label]) => {
+    const group = members.filter((m) => m.role === role).sort(byPeriod);
+    return group.length > 0 && (
+      <section class="mt-14">
+        <h2 class="reveal text-2xl font-bold text-navy dark:text-white">{heading} <span class="text-base font-normal text-slate-400">{group.length}</span></h2>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+          {group.map((m) => <MemberCard m={m} label={label} />)}
+        </div>
+      </section>
+    );
+  })}
+
+  {alumni.length > 0 && (
+    <section class="mt-14">
+      <h2 class="reveal text-2xl font-bold text-navy dark:text-white">Alumni</h2>
+      <ul class="mt-6 divide-y divide-slate-200 dark:divide-slate-700">
+        {alumni.map((m) => (
+          <li class="grid gap-x-6 py-3 sm:grid-cols-[14rem_1fr]">
+            <span class="font-mono text-sm text-slate-500">{m.period}</span>
+            <span><span class="font-semibold">{m.name}</span>{m.name_ko && <span class="ml-1 text-slate-500">{m.name_ko}</span>}{m.current && <span class="text-slate-600 dark:text-slate-300"> → {m.current}</span>}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Container>
+</Layout>
