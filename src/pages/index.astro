@@ -8,7 +8,7 @@ import { getCollection } from 'astro:content';
 import { SITE } from '../site';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
-const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 5);
+const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 8); // no separate News page: the sidebar is the news list
 const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year).slice(0, 3);
 const photos = (await getCollection('gallery')).map((g) => g.data).sort((a, b) => +b.date - +a.date).slice(0, 4);
 const h2 = 'text-2xl font-bold text-ink dark:text-white';
@@ -21,7 +21,7 @@ const more = 'text-sm font-medium text-blue hover:underline';
         <h1 class="sr-only">{SITE.fullName}</h1>
         <p class="text-lg text-slate-700 dark:text-slate-300">
           <span class="font-semibold text-ink dark:text-white">Interested in working with us?</span>{' '}
-          See <a href={`${base}/join`} class="text-blue underline underline-offset-2">Join us</a> for openings and how to apply.
+          See <a href={`${base}/contact`} class="text-blue underline underline-offset-2">Join & Contact</a> for openings and how to apply.
         </p>
         {SITE.homePhoto && (
           <figure class="mt-6">
@@ -68,7 +68,6 @@ const more = 'text-sm font-medium text-blue hover:underline';
           </li>
         ))}
       </ul>
-      <a href={`${base}/news`} class={`mt-5 inline-block ${more}`}>All news »</a>
     </aside>
   </div>
 

@@ -10,9 +10,8 @@ const nav: [string, string, [string, string][]?][] = [
   ['/professor', 'People', [['/professor', 'Professor'], ['/members', 'Members'], ['/alumni', 'Alumni']]],
   ['/research', 'Research', [['/research', 'Themes'], ['/projects', 'Projects']]],
   ['/publications', 'Publications'],
-  ['/news', 'News', [['/news', 'News'], ['/gallery', 'Gallery']]],
-  ['/join', 'Join us'],
-  ['/contact', 'Contact'],
+  ['/gallery', 'Gallery'],
+  ['/contact', 'Join & Contact'],
 ];
 const path = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
 const on = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
