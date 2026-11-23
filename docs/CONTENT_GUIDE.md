@@ -22,20 +22,18 @@
 |---|---|---|
 | name | BSG Lab | 영문 랩명 (헤더·타이틀) |
 | 정식 명칭 (한/영) | Battery Safety & ... Laboratory / 배터리 ○○ 연구실 | hero에 표시 (1단계 작업 시 추가) |
-| tagline | 한 줄 소개 (20단어 이내) | 홈 첫 화면 |
+| mission / about | 홈 제목 한 문장 / 소개 문단 | 홈 About |
+| tagline | 한 줄 소개 (20단어 이내) | 검색·공유 미리보기 설명 |
 | affiliation | KENTECH, Department of ... | footer |
 | address / email / phone / office | | Contact 페이지, footer |
 | mapQuery | Google 지도 검색어 | Contact 지도 |
 | recruiting | 모집 안내 문단 | Contact 'Join us' 박스 |
 | github | 랩 GitHub 주소 | footer |
 
-## 1-1. 첫 화면 배경 / 학교 로고 — `src/site.ts`
-- `heroImage`: `public/hero/hero.jpg` (지금은 임시 그래픽). 가로 1920×1080 이상 JPG.
-- `heroVideo`: mp4를 `public/hero/hero.mp4`로 넣고 경로를 적으면 데스크톱에서 무음 자동재생 영상으로 바뀜(모바일·데이터 절약 모드는 heroImage만 보여줌).
-  **영상 제작 조건**: 1280×720, 10~15초, 24~30 fps, **무음(필수)**, H.264 MP4, 2~4 MB(최대 6 MB). 느린 움직임과 어두운/저채도 장면이 글자 가독성과 루프에 유리. 시작·끝 장면이 비슷하면 반복 티가 안 남.
-  변환(ffmpeg): `ffmpeg -ss 0 -t 12 -i source.mov -vf "scale=1280:-2,fps=30" -an -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 26 -maxrate 2.5M -bufsize 5M -movflags +faststart public/hero/hero.mp4`
-  첫 프레임을 poster로: `ffmpeg -i public/hero/hero.mp4 -frames:v 1 -q:v 3 public/hero/hero.jpg`
-- `partnerLogo`: KENTECH 로고 파일(`public/logo/kentech.svg` 또는 png)을 넣고 경로를 적으면 헤더·footer·모바일 메뉴에 표시. 지금은 비어 있어 숨김.
+## 1-1. 홈 첫 사진 — `src/site.ts`
+- 학술 사이트 방향(2026-11)에 따라 배너·영상·애니메이션 없이, SD Kang Lab처럼 **사진 한 장 + 설명 한 줄**로 시작합니다.
+- `homePhoto`: `public/home/` 아래 가로 사진(긴 변 1600px, JPG ≤ 300 KB). `homePhotoCaption`: 사진 아래 한 줄 설명.
+- 사진을 바꿀 때는 파일만 교체하고 설명 문장을 함께 고치세요.
 
 ## 1-2. 교수 소개 — `src/data/professor.yaml`
 직함, 소속, 소개글(3~5문장), 학력(학위·기관·연도), 경력(직위·기관·기간), 수상, CV·Scholar·ORCID 링크. 이름·사진·이메일은 members.yaml의 PI 항목을 사용.

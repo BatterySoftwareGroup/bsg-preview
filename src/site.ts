@@ -5,7 +5,6 @@ export const SITE = {
   department: 'Department of Energy Engineering', // 에너지공학부 (KENTECH 단일 학부)
   affiliation: 'KENTECH',
   affiliationFull: 'Korea Institute of Energy Technology',
-  affiliationUrl: 'https://www.kentech.ac.kr/', // 학교 로고 클릭 시 이동
   mission: 'Predicting batteries with physics and code.', // hero 한 문장 (00_baseline.md)
   tagline: 'Mathematical models for battery cells, packs, BMS algorithms, and energy systems.',
   // 홈 "About" 문단 (기존 PI 소개를 연구실 관점으로 고쳐 씀 — PI 확인 필요)
@@ -18,11 +17,9 @@ export const SITE = {
   mapQuery: '한국에너지공과대학교', // Google 지도 검색어 (장소명이 좌표보다 정확)
   recruiting: 'We have multiple open positions for PhD students and Postdoctoral Fellows. If interested, please contact Prof. Song by email with a short CV and your research interests.',
   github: '', // 랩 GitHub 조직 주소 — 비우면 footer 링크 숨김
-  // 학교 로고: public/logo/kentech.svg(또는 .png)을 넣고 경로를 적으면 헤더·footer에 표시됩니다. 비우면 숨김.
-  partnerLogo: '/logo/kentech.png',
-  // 첫 화면(hero) 배경. heroVideo(mp4, 무음)가 있으면 영상(데스크톱에서만) → 없으면 heroImage → 둘 다 비면 코드 애니메이션. public/hero/ 아래.
-  heroImage: '', // 영상의 poster로도 쓰임. 예: '/hero/hero.jpg'
-  heroVideo: '',
+  // 홈 첫 사진 (SD Kang Lab식: 사진 + 설명 한 줄). public/home/ 아래, 가로 사진 권장.
+  homePhoto: '/home/talk.jpg',
+  homePhotoCaption: 'Prof. Song giving a talk at the BMS Symposium, 2026 Korean Battery Society Fall Meeting (Nov 6, 2026).',
   // true면 검색 엔진에 안 잡힘(프리뷰용). 정식 공개 때 false로.
   noindex: true,
 };

@@ -105,6 +105,7 @@
 
 # ---------- Alumni ----------
 - id: eschoi
+  photo: /members/eschoi.jpg
   name: Eun-Sik Choi
   name_ko: ''
   role: Alumni
@@ -113,6 +114,7 @@
   current: ''
 
 - id: yrjung
+  photo: /members/yrjung.jpg
   name: Yoorim Jung
   name_ko: ''
   role: Alumni
@@ -121,6 +123,7 @@
   current: ''
 
 - id: yrjeon
+  photo: /members/yrjeon.jpg
   name: Yerin Jeon
   name_ko: ''
   role: Alumni
@@ -129,6 +132,7 @@
   current: ''
 
 - id: jykim
+  photo: /members/jykim.jpg
   name: Junyeon Kim
   name_ko: ''
   role: Alumni
@@ -137,6 +141,7 @@
   current: ''
 
 - id: wjsong
+  photo: /members/wjsong.jpg
   name: Woojin Song
   name_ko: ''
   role: Alumni
