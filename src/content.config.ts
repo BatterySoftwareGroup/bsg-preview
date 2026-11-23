@@ -83,7 +83,6 @@ const research = defineCollection({
   }),
 });
 
-export const NEWS_CATEGORIES = { paper: 'Paper', grant: 'Grant', award: 'Award', event: 'Event' } as const;
 const news = defineCollection({
   loader: glob({ pattern: '*.md', base: 'src/content/news' }),
   schema: z.object({

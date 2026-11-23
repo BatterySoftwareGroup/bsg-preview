@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
 import PubItem from '../../components/PubItem.astro';
+import { sortPubs } from '../../pubs';
 import { getCollection, render } from 'astro:content';
 export async function getStaticPaths() {
   return (await getCollection('research')).map((t) => ({ params: { id: t.id }, props: { t } }));
@@ -9,7 +10,7 @@ export async function getStaticPaths() {
 const { t } = Astro.props;
 const { Content } = await render(t);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const related = (await getCollection('publications')).filter((p) => t.data.related.includes(p.id)).sort((a, b) => b.data.year - a.data.year);
+const related = sortPubs((await getCollection('publications')).filter((p) => t.data.related.includes(p.id)));
 const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Layout title={t.data.title}>

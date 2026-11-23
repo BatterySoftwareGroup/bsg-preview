@@ -1,13 +1,12 @@
 ---
-// One publication entry (I³ Group pattern): optional thumbnail, title, authors (PI in bold),
-// venue chip + topic chips, then DOI / PDF / Code / BibTeX. Used on /publications, /professor and home.
-// `filter` makes the topic chips buttons that drive the filter bar on /publications.
+// One publication entry: optional thumbnail, title, authors (PI in bold), a plain citation line
+// (venue, volume, year), then links and topic keywords on one row. Used on /publications, /professor and home.
+// `filter` makes the topic keywords buttons that drive the filter bar on /publications.
 const { p, id, filter = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const href = p.doi ? `https://doi.org/${p.doi}` : p.link;
 const pdf = p.pdf && (p.pdf.startsWith('http') ? p.pdf : `${base}${p.pdf}`);
-const typeLabel = { journal: '', conference: 'Conference', patent: 'Patent', book: 'Book Chapter' }[p.type];
-const chips: string[] = [...(typeLabel ? [typeLabel] : []), ...p.tags];
+const typeLabel = { journal: '', conference: 'Conference', patent: 'Patent', book: 'Book chapter' }[p.type];
 // BibTeX: authors "A, B, C*" → "A and B and C"; markers *† stripped.
 const entry = { journal: 'article', conference: 'inproceedings', patent: 'misc', book: 'incollection' }[p.type];
 const field = { journal: 'journal', conference: 'booktitle', patent: 'howpublished', book: 'booktitle' }[p.type];
@@ -17,23 +16,21 @@ const authors = p.authors.replace(/(J\. Song[*†]?)/, '<strong class="text-ink 
 const btn = 'rounded-full px-3 py-0.5 text-xs font-semibold';
 const chip = 'rounded-full bg-sky/10 px-2.5 py-0.5 text-xs font-medium text-blue';
 ---
-<li class="pub flex gap-5" data-tags={`|${chips.join('|')}|`}>
+<li class="pub flex gap-5" data-tags={`|${p.tags.join('|')}|`}>
   {p.thumb && <img src={`${base}${p.thumb}`} alt="" class="hidden aspect-[4/3] w-36 shrink-0 rounded-lg border border-slate-200 object-cover sm:block dark:border-slate-700" loading="lazy" />}
   <div class="min-w-0 border-l-4 border-sky pl-4">
     <p class="font-semibold leading-snug text-ink dark:text-white">{href ? <a href={href} class="hover:text-blue hover:underline">{p.title}</a> : p.title}</p>
     <p class="mt-1 text-sm text-slate-600 dark:text-slate-300" set:html={authors} />
+    <p class="mt-0.5 text-sm text-slate-500"><em class="text-slate-700 dark:text-slate-200">{p.venue}</em>{p.volume && `, ${p.volume}`} ({p.year}){typeLabel && <span class="ml-2 rounded bg-slate-100 px-1.5 py-0.5 text-xs dark:bg-slate-800">{typeLabel}</span>}</p>
     <div class="mt-2 flex flex-wrap items-center gap-1.5">
-      <span class="rounded-full bg-navy px-2.5 py-0.5 text-xs font-semibold text-white">{p.venue}</span>
-      {chips.map((t) => filter
-        ? <button type="button" class:list={[chip, 'tag-btn hover:bg-sky/25']} data-tag={t}>{t}</button>
-        : <span class={chip}>{t}</span>)}
-      <span class="ml-1 font-mono text-xs text-slate-500">{p.volume && `${p.volume} · `}{p.year}</span>
-    </div>
-    <div class="mt-2 flex flex-wrap gap-1.5">
       {href && <a href={href} class:list={[btn, 'bg-blue text-white hover:bg-navy']}>{p.doi ? 'DOI →' : 'Link →'}</a>}
       {pdf && <a href={pdf} class:list={[btn, 'bg-slate-600 text-white']}>PDF</a>}
       {p.code && <a href={p.code} class:list={[btn, 'bg-ink text-white']}>Code →</a>}
       <button type="button" class:list={[btn, 'copy-bib border border-slate-300 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800']} data-bib={bib}>BibTeX</button>
+      {p.tags.length > 0 && <span class="mx-1 h-4 w-px bg-slate-200 dark:bg-slate-700" aria-hidden="true"></span>}
+      {p.tags.map((t: string) => filter
+        ? <button type="button" class:list={[chip, 'tag-btn hover:bg-sky/25']} data-tag={t}>{t}</button>
+        : <span class={chip}>{t}</span>)}
     </div>
   </div>
 </li>

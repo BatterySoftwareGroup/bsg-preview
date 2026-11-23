@@ -5,27 +5,28 @@ import Layout from '../layouts/Layout.astro';
 import Container from '../components/Container.astro';
 import PubItem from '../components/PubItem.astro';
 import PageToc from '../components/PageToc.astro';
+import { sortPubs } from '../pubs';
 import { getCollection } from 'astro:content';
 const KENTECH_SINCE = 2022; // PI joined KENTECH in 2022.04
-const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
-const typeLabel = { journal: '', conference: 'Conference', patent: 'Patent', book: 'Book Chapter' } as const;
+const pubs = sortPubs(await getCollection('publications'));
 const count: Record<string, number> = {};
-pubs.forEach((p) => [typeLabel[p.data.type], ...p.data.tags].filter(Boolean).forEach((t) => (count[t] = (count[t] ?? 0) + 1)));
+pubs.forEach((p) => p.data.tags.forEach((t) => (count[t] = (count[t] ?? 0) + 1)));
 const tags = Object.entries(count).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 const groups = [['kentech', 'At KENTECH', pubs.filter((p) => p.data.year >= KENTECH_SINCE)], ['before', 'Before KENTECH', pubs.filter((p) => p.data.year < KENTECH_SINCE)]] as const;
 const toc: [string, string][] = groups.flatMap(([g, , list]) => [...new Set(list.map((p) => p.data.year))].map((y) => [`y${y}`, String(y)] as [string, string]));
-const chip = 'tag-btn rounded-full border border-slate-300 px-3 py-1 text-sm font-medium hover:border-blue hover:text-blue dark:border-slate-600';
+const chip = 'tag-btn shrink-0 rounded-full border border-slate-300 px-3 py-1 text-sm font-medium hover:border-blue hover:text-blue dark:border-slate-600';
 ---
 <Layout title="Publications">
 <Container title="Publications">
   <p class="text-sm text-slate-500">* Corresponding author, † Equal contribution. Click a keyword to filter.</p>
 
-  <div class="sticky top-16 z-10 -mx-4 mt-6 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
-    <div class="flex flex-wrap items-center gap-2">
+  <!-- Filter bar: pinned under the 64px header on desktop only (top-16); keywords stay on one line and scroll sideways if needed -->
+  <div class="z-10 -mx-4 mt-6 flex flex-col lg:sticky lg:top-16 gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:flex-row lg:items-center dark:border-slate-700 dark:bg-slate-900">
+    <div class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap [scrollbar-width:thin]">
       <button type="button" class={chip} data-tag="" aria-pressed="true">All <span class="text-slate-400">{pubs.length}</span></button>
       {tags.map(([t, n]) => <button type="button" class={chip} data-tag={t} aria-pressed="false">{t} <span class="text-slate-400">{n}</span></button>)}
-      <input id="q" type="search" placeholder="Search title, author, venue…" class="w-full rounded-full border border-slate-300 px-4 py-1.5 text-sm lg:ml-auto lg:w-64 dark:border-slate-600 dark:bg-slate-800" />
     </div>
+    <input id="q" type="search" placeholder="Search title, author, venue…" class="w-full shrink-0 rounded-full border border-slate-300 px-4 py-1.5 text-sm lg:w-60 dark:border-slate-600 dark:bg-slate-800" />
   </div>
 
   <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_9rem]">
