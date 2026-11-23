@@ -84,3 +84,9 @@ Alumni는 재학 기간 + 현 소속.
 
 ## 8. 초안 작성 순서 (추천)
 1. `site.ts`의 랩명·태그라인 → 2. 교수 정보 + 사진 → 3. 논문 전체(BibTeX 내보내기) → 4. 학생 정보 + 사진 → 5. 연구 주제 글 → 6. 과제·소식.
+
+## Version 2 (2026-11) 추가 필드
+- `members.yaml`: `education`(한 줄 학력), `bio`(자기소개 2~4문장) — People 페이지 카드 오른쪽에 표시. 비우면 숨김. 사진은 4:5로 잘려 보입니다.
+- `publications.yaml`: `tags`(주제 키워드, Publications 필터 버튼·Research Keywords), `thumb`(썸네일, `public/papers/thumbs/`, 4:3), `code`(코드 저장소 URL).
+- `src/site.ts`: `mission`(홈 hero 한 문장), `about`(홈 About 문단) — PI 확인 필요.
+- Join us 페이지(`src/pages/join.astro`)의 모집 분야·지원 서류는 초안입니다 — PI 확인 필요.

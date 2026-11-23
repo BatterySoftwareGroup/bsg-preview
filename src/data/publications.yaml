@@ -2,11 +2,15 @@
 # type: journal | conference | patent | book   (생략하면 journal)
 # authors: 교신저자는 이름 뒤 *, 공동1저자는 †  (기존 사이트에 표시가 없어 아직 안 붙임 — PI 확인 후 추가)
 # doi: "10.xxxx/..." 만. 링크 버튼이 자동으로 생깁니다.  volume: "권, 쪽" 자유 형식.
+# tags: 주제 키워드 (Publications 필터 버튼). 목록: Impedance, Electrode Modeling, Transport, Fast Charging,
+#   BMS, State Estimation, Machine Learning, EV, Techno-economics, Beyond Li-ion — 새 주제는 자유롭게 추가 가능
+# thumb: 썸네일 이미지 (public/papers/thumbs/…, 가로 4:3), code: 코드 저장소 URL — 둘 다 선택
 # highlight: true → 홈·교수 페이지 Highlights에 표시 (현재 5편 가선정 — PI 확인 필요)
 # pdf: public/papers/ 아래 경로(/papers/x.pdf) 또는 외부 URL. 저작권상 공개 가능한 것만.
 # 정렬은 자동(연도 내림차순)이므로 순서는 신경 쓰지 않아도 됩니다.
 
 - id: kim2026eesb
+  tags: [Impedance, Electrode Modeling]
   title: Addressing inhomogeneities in porous electrode models by integrating time distributions for advanced impedance diagnostics of Li-ion batteries
   authors: J. S. Kim, S. Lee, S. W. Heo, G. Park, J. Yu, D. Kim, J. Song
   venue: EES Batteries
@@ -15,6 +19,7 @@
   highlight: true
 
 - id: bui2026acsapm
+  tags: [Beyond Li-ion, Transport]
   title: Revealing the role of ion transport properties through ion-exchange membranes for aqueous zinc-ion battery
   authors: T. T. Bui, P. Viswanathan, H. T. B. Ngo, S. W. Heo, Y. J. Jo, J. Song, T. H. Lee, H. W. Kim
   venue: ACS Applied Polymer Materials
@@ -22,6 +27,7 @@
   doi: 10.1021/acsapm.6c02813
 
 - id: jung2026device
+  tags: [Fast Charging, Techno-economics]
   title: Tubular form factor batteries to enable affordable and durable fast charging
   authors: Y. Jung, J. J. Kubal, K. W. Knehr, S. Ahmed, J. Song
   venue: Device
@@ -31,6 +37,7 @@
   highlight: true
 
 - id: zhang2026sciadv
+  tags: [Beyond Li-ion, Transport]
   title: Water doping sodium battery electrolyte controls nanostructure, interactions, and electrochemical properties
   authors: X. Zhang, Q. Zheng, H. Li, Z. A. H. Goodwin, A. G. Hoane, A. Deptula, O. M. Johnson, J. Song, D. M. Markiewitz, M. Z. Bazant, C. Leal, F. Mangolini, A. A. Gewirth, R. Atkin, M. W. Rutland, R. M. Espinosa-Marzal
   venue: Science Advances
@@ -40,6 +47,7 @@
   highlight: true
 
 - id: kang2026apen
+  tags: [BMS, State Estimation]
   title: Advanced state-of-health estimation integrating partial capacity-based initialization and resistance-informed covariance correction in adaptive extended Kalman filter for lithium iron phosphate batteries
   authors: E. Kang, S. Lee, M. Song, J. Lee, J. Song, J. Kim
   venue: Applied Energy
@@ -49,6 +57,7 @@
   highlight: true
 
 - id: lee2026aaai
+  tags: [BMS, Machine Learning, EV]
   type: conference
   title: Enabling delayed-full charging through transformer-based real-time-to-departure modeling for EV battery longevity
   authors: Y. Lee, J. Hwang, A. M. Kondoro, J. Song, Y. Noh
@@ -58,6 +67,7 @@
   doi: 10.1609/aaai.v40i45.41228
 
 - id: kondoro2025chi
+  tags: [Machine Learning, EV]
   type: conference
   title: Investigating user perceptions to mitigate dropout in longitudinal passive sensing studies
   authors: A. M. Kondoro, Y. Lee, J. Song, Y. Noh
@@ -67,6 +77,7 @@
   doi: 10.1145/3706599.3719959
 
 - id: jeon2025aenm
+  tags: [Beyond Li-ion]
   title: A near-single-ion conducting protective layer for dendrite-free zinc metal anodes
   authors: H. G. Jeon, S. W. Heo, J. Song, C. Kim
   venue: Advanced Energy Materials
@@ -75,6 +86,7 @@
   doi: 10.1002/aenm.202500155
 
 - id: lee2024imwut
+  tags: [Machine Learning, EV]
   title: "Extending EV battery lifetime: digital phenotyping approach for departure time prediction"
   authors: Y. Lee, W. Song, J. Song, Y. Noh
   venue: Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies
@@ -84,6 +96,7 @@
   highlight: true
 
 - id: lee2024ensm
+  tags: [Beyond Li-ion]
   title: Interfacial stabilization strategy via In-doped Ag metal coating enables a high cycle life of anode-free solid-state Li batteries
   authors: J. H. Lee, S. H. Oh, H. Yim, H. J. Lee, E. Kwon, S. Yu, J. S. Kim, J. Song, J. Koo, J. Cho, S. H. Kim, A. Ryu, S. H. Choi, Y. Kim, G. Im, J. W. Choi, S. H. Yu
   venue: Energy Storage Materials
@@ -92,6 +105,7 @@
   doi: 10.1016/j.ensm.2024.103398
 
 - id: song2021ees
+  tags: [Fast Charging, Techno-economics]
   title: Pathways towards managing cost and degradation risk of fast charging cells with electrical and thermal controls
   authors: J. Song, Z. Liu, K. W. Knehr, J. J. Kubal, D. W. Dees, S. Ahmed
   venue: Energy & Environmental Science
@@ -100,6 +114,7 @@
   doi: 10.1039/D1EE02286E
 
 - id: ziegler2021ees
+  tags: [Techno-economics]
   title: Determinants of lithium-ion battery technology cost decline
   authors: M. S. Ziegler, J. Song, J. E. Trancik
   venue: Energy & Environmental Science
@@ -108,6 +123,7 @@
   doi: 10.1039/D1EE01313K
 
 - id: liu2021enpol
+  tags: [Techno-economics, EV]
   title: Comparing total cost of ownership of battery electric vehicles and internal combustion engine vehicles
   authors: Z. Liu, J. Song, J. Kubal, N. Susarla, K. W. Knehr, E. Islam, P. Nelson, S. Ahmed
   venue: Energy Policy
@@ -116,6 +132,7 @@
   doi: 10.1016/j.enpol.2021.112564
 
 - id: kim2021iop
+  tags: [Impedance, Electrode Modeling]
   type: book
   title: Electrochemical characterization and modeling for batteries
   authors: J. Kim, S. Son, J. Kim, H. K. Kim, J. Song
@@ -124,6 +141,7 @@
   doi: 10.1088/978-0-7503-2682-7ch2
 
 - id: effendy2020jes
+  tags: [Impedance]
   title: Analysis, design, and generalization of electrochemical impedance spectroscopy (EIS) inversion algorithms
   authors: S. Effendy, J. Song, M. Z. Bazant
   venue: Journal of The Electrochemical Society
@@ -132,6 +150,7 @@
   doi: 10.1149/1945-7111/ab9c82
 
 - id: song2019pre
+  tags: [Impedance, Transport]
   title: Electrochemical impedance of electrodiffusion in charged media under dc bias
   authors: J. Song, E. Khoo, M. Z. Bazant
   venue: Physical Review E
@@ -140,6 +159,7 @@
   doi: 10.1103/PhysRevE.100.042204
 
 - id: ziegler2019joule
+  tags: [Techno-economics]
   title: Storage requirements and costs of shaping renewable energy toward grid decarbonization
   authors: M. S. Ziegler, J. M. Mueller, G. D. Pereira, J. Song, M. Ferrara, Y.-M. Chiang, J. E. Trancik
   venue: Joule
@@ -148,6 +168,7 @@
   doi: 10.1016/j.joule.2019.06.012
 
 - id: song2018prl
+  tags: [Impedance, Transport]
   title: Electrochemical impedance imaging via distribution of diffusion times
   authors: J. Song, M. Z. Bazant
   venue: Physical Review Letters
@@ -156,6 +177,7 @@
   doi: 10.1103/PhysRevLett.120.116001
 
 - id: song2014electa
+  tags: [Impedance, Electrode Modeling]
   title: Electrochemical impedance of a battery electrode with anisotropic active particles
   authors: J. Song, M. Z. Bazant
   venue: Electrochimica Acta
@@ -164,6 +186,7 @@
   doi: 10.1016/j.electacta.2014.03.013
 
 - id: song2013jes
+  tags: [Impedance, Electrode Modeling]
   title: Effects of nanoparticle geometry and size distribution on diffusion impedance of battery electrodes
   authors: J. Song, M. Z. Bazant
   venue: Journal of The Electrochemical Society

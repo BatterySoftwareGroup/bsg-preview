@@ -1,6 +1,7 @@
 ---
-// BSG wordmark (public/logo/bsg.svg). Height is set by the parent via class.
-const { class: cls = 'h-8' } = Astro.props;
+// BSG logo from the final design (디자인쏘다, 2026-11). Default: mark only; `full` adds the
+// "Battery Software Group" line in white, for dark backgrounds. Height is set by the parent via class.
+const { class: cls = 'h-8', full = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
-<img src={`${base}/logo/bsg.svg`} alt="BSG" class={`w-auto ${cls}`} />
+<img src={`${base}/logo/${full ? 'bsg-full-dark' : 'bsg-mark-light'}.png`} alt="BSG · Battery Software Group" class={`w-auto ${cls}`} />

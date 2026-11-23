@@ -1,0 +1,9 @@
+---
+// Tab bar shared by the three People pages (SD Kang Lab "Current Members | Alumni" pattern).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const tabs = [['/professor', 'Professor'], ['/members', 'Current Members'], ['/alumni', 'Alumni']];
+const path = Astro.url.pathname.replace(base, '').replace(/\/$/, '');
+---
+<nav class="-mx-4 mb-10 flex gap-6 overflow-x-auto overflow-y-hidden border-b border-slate-200 px-4 whitespace-nowrap sm:mx-0 sm:px-0 dark:border-slate-700" aria-label="People">
+  {tabs.map(([h, l]) => <a href={`${base}${h}`} class:list={['-mb-px border-b-2 py-3 font-medium', path === h ? 'border-blue text-blue' : 'border-transparent text-slate-500 hover:text-ink dark:hover:text-white']}>{l}</a>)}
+</nav>

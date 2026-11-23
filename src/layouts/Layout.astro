@@ -4,8 +4,20 @@ import { SITE } from '../site';
 import Logo from '../components/Logo.astro';
 const { title } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const nav = [['/', 'Home'], ['/research', 'Research'], ['/professor', 'Professor'], ['/members', 'Members'], ['/publications', 'Publications'], ['/projects', 'Projects'], ['/news', 'News'], ['/gallery', 'Gallery'], ['/contact', 'Contact']];
+// [href, label, children?] — items with children open a dropdown (desktop) / indented list (mobile).
+const nav: [string, string, [string, string][]?][] = [
+  ['/', 'Home'],
+  ['/professor', 'People', [['/professor', 'Professor'], ['/members', 'Members'], ['/alumni', 'Alumni']]],
+  ['/research', 'Research', [['/research', 'Themes'], ['/projects', 'Projects']]],
+  ['/publications', 'Publications'],
+  ['/news', 'News', [['/news', 'News'], ['/gallery', 'Gallery']]],
+  ['/join', 'Join us'],
+  ['/contact', 'Contact'],
+];
 const path = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
+const on = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const active = ([href, , kids]: (typeof nav)[number]) => on(href) || !!kids?.some(([h]) => on(h));
+const flat = nav.flatMap(([href, label, kids]) => kids ?? [[href, label]]);
 const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
 ---
 <html lang="en">
@@ -13,12 +25,12 @@ const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
     <meta charset="utf-8" />
     <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="icon" type="image/png" href={`${base}/favicon.png`} />
     <title>{title ? `${title} | ${SITE.name}` : `${SITE.name} · ${SITE.fullName}`}</title>
     <meta name="description" content={SITE.tagline} />
     {SITE.noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap" />
     <meta property="og:title" content={title ? `${title} | ${SITE.name}` : SITE.fullName} />
     <meta property="og:description" content={SITE.tagline} />
@@ -29,9 +41,21 @@ const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
     <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-700 dark:bg-slate-900/90">
       <div class="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3 lg:px-8">
         {partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener" class="shrink-0"><img src={partner} alt={SITE.affiliation} class="h-7 md:h-8" /></a>}
-        <a href={`${base}/`} class:list={['flex items-center gap-3', partner && 'border-l border-slate-300 pl-4 dark:border-slate-600']}><Logo class="h-8 md:h-9" /><span class="text-lg font-bold md:text-xl">{SITE.name}</span></a>
-        <nav class="ml-auto hidden gap-6 text-[15px] font-medium lg:flex">
-          {nav.map(([href, label]) => <a href={`${base}${href}`} class:list={['hover:text-blue', (href === '/' ? path === '/' : path.startsWith(href)) && 'text-blue']}>{label}</a>)}
+        <a href={`${base}/`} class:list={['flex items-center gap-3', partner && 'border-l border-slate-300 pl-4 dark:border-slate-600']}><Logo class="h-8 md:h-9" /><span class="hidden text-lg font-semibold text-ink sm:inline dark:text-white">{SITE.fullName}</span></a>
+        <nav class="ml-auto hidden gap-7 text-[15px] font-medium lg:flex">
+          {nav.map((item) => {
+            const [href, label, kids] = item;
+            return (
+              <div class="group relative">
+                <a href={`${base}${href}`} class:list={['py-2 hover:text-blue', active(item) && 'text-blue']}>{label}{kids && <span class="ml-1 text-[10px] opacity-60">▾</span>}</a>
+                {kids && (
+                  <div class="invisible absolute left-1/2 top-full z-30 min-w-40 -translate-x-1/2 rounded-xl border border-slate-200 bg-white p-2 opacity-0 shadow-lg transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100 dark:border-slate-700 dark:bg-slate-900">
+                    {kids.map(([h, l]) => <a href={`${base}${h}`} class:list={['block rounded-lg px-3 py-2 whitespace-nowrap hover:bg-slate-100 dark:hover:bg-slate-800', on(h) && 'text-blue']}>{l}</a>)}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
         <button id="menu-open" class="ml-auto p-2 lg:hidden" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -47,8 +71,16 @@ const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
       </div>
-      <nav class="flex flex-col px-5 py-2 text-xl">
-        {nav.map(([href, label]) => <a href={`${base}${href}`} class:list={['border-b border-slate-100 py-4 font-medium dark:border-slate-800', (href === '/' ? path === '/' : path.startsWith(href)) && 'text-blue']}>{label}</a>)}
+      <nav class="flex flex-col overflow-y-auto px-5 py-2 text-xl">
+        {nav.map((item) => {
+          const [href, label, kids] = item;
+          return kids ? (
+            <div class="border-b border-slate-100 py-3 dark:border-slate-800">
+              <p class:list={['font-medium', active(item) && 'text-blue']}>{label}</p>
+              {kids.map(([h, l]) => <a href={`${base}${h}`} class:list={['block py-1.5 pl-4 text-lg text-slate-600 dark:text-slate-300', on(h) && 'text-blue']}>{l}</a>)}
+            </div>
+          ) : <a href={`${base}${href}`} class:list={['border-b border-slate-100 py-4 font-medium dark:border-slate-800', on(href) && 'text-blue']}>{label}</a>;
+        })}
       </nav>
       {partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener" class="mt-auto mb-6 self-start px-5"><img src={partner} alt={SITE.affiliation} class="h-8" /></a>}
     </aside>
@@ -75,7 +107,7 @@ const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
     <footer class="bg-ink text-slate-300">
       <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3 lg:px-8">
         <div>
-          <div class="flex items-center gap-4">{partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener"><img src={partner} alt={SITE.affiliation} class="h-8 brightness-0 invert" /></a>}<Logo class="h-8" /></div>
+          <div class="flex items-center gap-4">{partner && <a href={SITE.affiliationUrl} target="_blank" rel="noopener"><img src={partner} alt={SITE.affiliation} class="h-8 brightness-0 invert" /></a>}<Logo full class="h-14" /></div>
           <p class="mt-4 text-lg font-bold text-white">{SITE.fullName}</p>
           {SITE.fullNameKo && <p>{SITE.fullNameKo}</p>}
           <p class="mt-2 text-sm">{SITE.department && `${SITE.department}, `}{SITE.affiliationFull}</p>
@@ -85,7 +117,7 @@ const partner = SITE.partnerLogo && `${base}${SITE.partnerLogo}`;
           <a href={`mailto:${SITE.email}`} class="hover:text-white">{SITE.email}</a>
         </div>
         <nav class="flex flex-col gap-1 text-sm md:items-end">
-          {nav.map(([href, label]) => <a href={`${base}${href}`} class="hover:text-white">{label}</a>)}
+          {flat.map(([href, label]) => <a href={`${base}${href}`} class="hover:text-white">{label}</a>)}
           {SITE.github && <a href={SITE.github} class="hover:text-white">GitHub</a>}
         </nav>
       </div>

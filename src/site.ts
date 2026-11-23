@@ -6,7 +6,10 @@ export const SITE = {
   affiliation: 'KENTECH',
   affiliationFull: 'Korea Institute of Energy Technology',
   affiliationUrl: 'https://www.kentech.ac.kr/', // 학교 로고 클릭 시 이동
+  mission: 'Predicting batteries with physics and code.', // hero 한 문장 (00_baseline.md)
   tagline: 'Mathematical models for battery cells, packs, BMS algorithms, and energy systems.',
+  // 홈 "About" 문단 (기존 PI 소개를 연구실 관점으로 고쳐 씀 — PI 확인 필요)
+  about: 'We seek to understand the dynamics of energy systems and to optimize their physical designs and algorithms by building mathematical models. Our work spans electrode and material microstructures, battery cells, packs, and management algorithms, to techno-economic evaluations of energy systems, and we validate our models in our own battery testing lab.',
   address: 'Office 206, Research Building 1, KENTECH, 21 Kentech-gil, Naju-si, Jeonnam-Gwangju, Republic of Korea',
   addressKo: '전남광주통합특별시 나주시 켄텍길 21, 한국에너지공과대학교 연구 1동 206호',
   email: 'jsong@kentech.ac.kr',

@@ -1,63 +1,86 @@
 ---
+// Publications v2: topic-tag filter (SD Kang Lab tabs + I³ Group tags), search, and
+// "At KENTECH / Before KENTECH" groups by year with an in-page year index (NEMO-style anchors).
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/Container.astro';
 import PubItem from '../components/PubItem.astro';
+import PageToc from '../components/PageToc.astro';
 import { getCollection } from 'astro:content';
+const KENTECH_SINCE = 2022; // PI joined KENTECH in 2022.04
 const pubs = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
-const tabs = [['journal', 'Journal'], ['conference', 'Conference'], ['patent', 'Patent'], ['book', 'Book Chapters']];
+const typeLabel = { journal: '', conference: 'Conference', patent: 'Patent', book: 'Book Chapter' } as const;
+const count: Record<string, number> = {};
+pubs.forEach((p) => [typeLabel[p.data.type], ...p.data.tags].filter(Boolean).forEach((t) => (count[t] = (count[t] ?? 0) + 1)));
+const tags = Object.entries(count).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const groups = [['kentech', 'At KENTECH', pubs.filter((p) => p.data.year >= KENTECH_SINCE)], ['before', 'Before KENTECH', pubs.filter((p) => p.data.year < KENTECH_SINCE)]] as const;
+const toc: [string, string][] = groups.flatMap(([g, , list]) => [...new Set(list.map((p) => p.data.year))].map((y) => [`y${y}`, String(y)] as [string, string]));
+const chip = 'tag-btn rounded-full border border-slate-300 px-3 py-1 text-sm font-medium hover:border-blue hover:text-blue dark:border-slate-600';
 ---
 <Layout title="Publications">
 <Container title="Publications">
-  <p class="text-sm text-slate-500">* Corresponding author, † Equal contribution.</p>
+  <p class="text-sm text-slate-500">* Corresponding author, † Equal contribution. Click a keyword to filter.</p>
 
-  <!-- Type tabs: hidden radio inputs + CSS sibling selector, no JS. Inputs must stay direct siblings of the panels. -->
-  {tabs.map(([t], i) => <input type="radio" name="tab" id={`tab-${t}`} class="hidden" checked={i === 0} />)}
-  <div class="mt-6 flex flex-wrap items-center gap-2">
-    {tabs.map(([t, label]) => <label for={`tab-${t}`} class="cursor-pointer rounded-full border border-slate-300 px-4 py-1 text-sm font-medium hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800">{label} <span class="text-slate-400">{pubs.filter((p) => p.data.type === t).length}</span></label>)}
-    <input id="q" type="search" placeholder="Search title, author, venue…" class="ml-auto w-full rounded-full border border-slate-300 px-4 py-1.5 text-sm sm:w-72 dark:border-slate-600 dark:bg-slate-800" />
+  <div class="sticky top-16 z-10 -mx-4 mt-6 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
+    <div class="flex flex-wrap items-center gap-2">
+      <button type="button" class={chip} data-tag="" aria-pressed="true">All <span class="text-slate-400">{pubs.length}</span></button>
+      {tags.map(([t, n]) => <button type="button" class={chip} data-tag={t} aria-pressed="false">{t} <span class="text-slate-400">{n}</span></button>)}
+      <input id="q" type="search" placeholder="Search title, author, venue…" class="w-full rounded-full border border-slate-300 px-4 py-1.5 text-sm lg:ml-auto lg:w-64 dark:border-slate-600 dark:bg-slate-800" />
+    </div>
   </div>
 
-  {tabs.map(([t]) => {
-    const list = pubs.filter((p) => p.data.type === t);
-    const years = [...new Set(list.map((p) => p.data.year))];
-    return (
-      <div data-tab={t} class="tabpanel">
-        {years.map((y) => (
-          <section class="year mt-8">
-            <h2 class="text-xl font-semibold">{y}</h2>
-            <ul class="mt-3 space-y-4">{list.filter((p) => p.data.year === y).map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
-          </section>
-        ))}
-        {list.length === 0 && <p class="mt-8 text-slate-500">No entries yet.</p>}
-        <p class="no-match mt-8 hidden text-slate-500">No matching publications.</p>
-      </div>
-    );
-  })}
+  <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_9rem]">
+    <div>
+      {groups.map(([g, label, list]) => list.length > 0 && (
+        <section class="group-block mb-14">
+          <h2 class="text-2xl font-bold text-ink dark:text-white">{label}</h2>
+          {[...new Set(list.map((p) => p.data.year))].map((y) => (
+            <section id={`y${y}`} class="year mt-8 scroll-mt-40 grid gap-4 sm:grid-cols-[4rem_1fr]">
+              <h3 class="font-mono text-lg font-extrabold text-slate-400">{y}</h3>
+              <ul class="space-y-7">{list.filter((p) => p.data.year === y).map((p) => <PubItem p={p.data} id={p.id} filter />)}</ul>
+            </section>
+          ))}
+        </section>
+      ))}
+      <p id="no-match" class="mt-8 hidden text-slate-500">No matching publications.</p>
+    </div>
+    <aside class="hidden lg:block"><div class="sticky top-40"><PageToc items={toc} title="Year" /></div></aside>
+  </div>
 </Container>
 </Layout>
 
-<style>
-  .tabpanel { display: none; }
-  #tab-journal:checked ~ [data-tab='journal'],
-  #tab-conference:checked ~ [data-tab='conference'],
-  #tab-patent:checked ~ [data-tab='patent'],
-  #tab-book:checked ~ [data-tab='book'] { display: block; }
-  #tab-journal:checked ~ div label[for='tab-journal'],
-  #tab-conference:checked ~ div label[for='tab-conference'],
-  #tab-patent:checked ~ div label[for='tab-patent'],
-  #tab-book:checked ~ div label[for='tab-book'] { background: #026fc1; border-color: #026fc1; color: #fff; }
+<style is:global>
+  /* global: the paper chips live inside PubItem, outside this page's style scope */
+  .tag-btn[aria-pressed='true'], .pub .tag-btn.on { background: var(--color-blue); border-color: var(--color-blue); color: #fff; }
+  .tag-btn[aria-pressed='true'] span { color: rgb(255 255 255 / 0.7); }
 </style>
 
 <script>
-  // Search: hide entries whose text doesn't contain every word; hide years left empty.
+  // Filter: one active keyword (chip in the bar or on a paper) AND every search word must match.
+  // Years and groups left with no visible paper are hidden.
   const q = document.getElementById('q') as HTMLInputElement;
-  q.addEventListener('input', () => {
+  let tag = '';
+  const apply = () => {
     const words = q.value.toLowerCase().split(/\s+/).filter(Boolean);
     document.querySelectorAll<HTMLElement>('.pub').forEach((li) => {
       const t = li.textContent!.toLowerCase();
-      li.hidden = !words.every((w) => t.includes(w));
+      li.hidden = !(!tag || li.dataset.tags!.includes(`|${tag}|`)) || !words.every((w) => t.includes(w));
     });
-    document.querySelectorAll<HTMLElement>('.year').forEach((s) => (s.hidden = !s.querySelector('.pub:not([hidden])')));
-    document.querySelectorAll<HTMLElement>('.tabpanel').forEach((p) => p.querySelector<HTMLElement>('.no-match')!.classList.toggle('hidden', !!p.querySelector('.pub:not([hidden])') || !p.querySelector('.pub')));
+    for (const sel of ['.year', '.group-block']) document.querySelectorAll<HTMLElement>(sel).forEach((s) => (s.hidden = !s.querySelector('.pub:not([hidden])')));
+    document.getElementById('no-match')!.classList.toggle('hidden', !!document.querySelector('.pub:not([hidden])'));
+    document.querySelectorAll<HTMLElement>('.tag-btn').forEach((b) => {
+      if (b.hasAttribute('aria-pressed')) b.setAttribute('aria-pressed', String(b.dataset.tag === tag));
+      else b.classList.toggle('on', !!tag && b.dataset.tag === tag);
+    });
+  };
+  document.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>('.tag-btn');
+    if (!b) return;
+    tag = b.dataset.tag === tag ? '' : b.dataset.tag!; // clicking the active keyword again clears it
+    apply();
+    if (!b.hasAttribute('aria-pressed')) scrollTo({ top: 0, behavior: 'smooth' });
   });
+  q.addEventListener('input', apply);
+  // Deep link from /research keywords: /publications?tag=Impedance
+  tag = new URLSearchParams(location.search).get('tag') ?? '';
+  if (tag) apply();
 </script>

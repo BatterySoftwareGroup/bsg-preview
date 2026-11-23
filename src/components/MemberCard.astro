@@ -1,18 +1,22 @@
 ---
-// One member card: 3:4 portrait photo on top, name, period, interests, email.
+// One member row (SD Kang Lab pattern): 4:5 photo on the left, details and a short bio on the right.
 const { m, label } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const row = 'flex gap-2 text-sm text-slate-600 dark:text-slate-300';
 ---
-<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
-  <div class="aspect-[3/4] bg-slate-100 dark:bg-slate-700">
+<article class="flex flex-col gap-5 py-8 sm:flex-row sm:gap-8">
+  <div class="aspect-[4/5] w-36 shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:w-44 dark:bg-slate-700">
     {m.photo ? <img src={`${base}${m.photo}`} alt={m.name} class="h-full w-full object-cover object-top" loading="lazy" />
       : <div class="flex h-full items-center justify-center text-5xl font-bold text-slate-300">{m.name[0]}</div>}
   </div>
-  <div class="p-4">
-    <span class="rounded-full bg-sky/15 px-2 py-0.5 text-xs font-semibold text-blue">{label}</span>
-    <p class="mt-2 text-lg font-bold">{m.name}{m.name_ko && <span class="ml-1 text-base font-normal text-slate-500">{m.name_ko}</span>}</p>
-    {m.period && <p class="font-mono text-xs text-slate-500">{m.period}</p>}
-    {m.interests && <p class="mt-2 text-sm leading-snug text-slate-600 dark:text-slate-300">{m.interests}</p>}
-    {m.email && <a href={`mailto:${m.email}`} class="mt-3 block truncate text-sm text-blue hover:underline">{m.email}</a>}
+  <div class="min-w-0">
+    <h3 class="text-xl font-bold text-ink dark:text-white">{m.name}{m.name_ko && <span class="ml-1.5 text-base font-normal text-slate-500">({m.name_ko})</span>}</h3>
+    <p class="mt-0.5 font-semibold text-blue">{label}{m.period && <span class="ml-2 font-mono text-xs font-normal text-slate-500">{m.period}</span>}</p>
+    <div class="mt-3 space-y-1">
+      {m.education && <p class={row}><span aria-hidden="true">🎓</span>{m.education}</p>}
+      {m.interests && <p class={row}><span aria-hidden="true">🔬</span>{m.interests}</p>}
+      {m.email && <p class={row}><span aria-hidden="true">✉️</span><a href={`mailto:${m.email}`} class="truncate text-blue hover:underline">{m.email}</a></p>}
+    </div>
+    {m.bio && <p class="mt-4 max-w-2xl leading-relaxed text-slate-700 dark:text-slate-300">{m.bio}</p>}
   </div>
-</div>
+</article>

@@ -2,7 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/Container.astro';
 import { SITE } from '../site';
-const map = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&output=embed`;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const map =`https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&output=embed`;
 ---
 <Layout title="Contact">
 <Container title="Contact">
@@ -21,7 +22,7 @@ const map = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&
       <div class="rounded-2xl border-l-4 border-sky bg-slate-50 p-5 dark:bg-slate-800">
         <h2 class="font-bold text-navy dark:text-white">Join us</h2>
         <p class="mt-2 text-slate-700 dark:text-slate-300">{SITE.recruiting}</p>
-        <a href={`mailto:${SITE.email}`} class="mt-4 inline-block rounded-full bg-blue px-5 py-2 text-sm font-semibold text-white hover:bg-navy">Email the professor</a>
+        <a href={`${base}/join`} class="mt-4 inline-block rounded-full bg-blue px-5 py-2 text-sm font-semibold text-white hover:bg-navy">Openings & how to apply →</a>
       </div>
     </div>
     <iframe src={map} class="min-h-80 w-full rounded-2xl border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map"></iframe>

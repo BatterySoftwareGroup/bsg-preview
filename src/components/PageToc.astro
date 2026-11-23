@@ -1,0 +1,26 @@
+---
+// In-page table of contents (NEMO pattern): links jump to #id on the same page with smooth scroll,
+// and the section currently on screen is highlighted. Targets need matching ids and `scroll-mt-24`.
+const { items, title = 'On this page' } = Astro.props as { items: [string, string][]; title?: string };
+---
+<nav class="page-toc text-sm" aria-label={title}>
+  <p class="mb-2 font-mono text-xs font-extrabold tracking-widest text-slate-400 uppercase">{title}</p>
+  <ul class="space-y-1 border-l border-slate-200 dark:border-slate-700">
+    {items.map(([id, label]) => <li><a href={`#${id}`} data-toc={id} class="-ml-px block border-l-2 border-transparent py-1 pl-3 text-slate-600 hover:text-blue dark:text-slate-300">{label}</a></li>)}
+  </ul>
+</nav>
+<script>
+  // Scroll-spy: mark the last section whose top has passed 30% of the viewport.
+  document.querySelectorAll<HTMLElement>('.page-toc').forEach((toc) => {
+    const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[data-toc]')];
+    const targets = links.map((a) => document.getElementById(a.dataset.toc!)).filter(Boolean) as HTMLElement[];
+    const update = () => {
+      const cur = targets.filter((t) => t.getBoundingClientRect().top < innerHeight * 0.3).pop() ?? targets[0];
+      links.forEach((a) => a.classList.toggle('toc-on', a.dataset.toc === cur?.id));
+    };
+    addEventListener('scroll', update, { passive: true }); update();
+  });
+</script>
+<style>
+  .toc-on { border-color: var(--color-blue); color: var(--color-blue); font-weight: 600; }
+</style>

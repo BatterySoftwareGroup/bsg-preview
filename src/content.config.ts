@@ -19,6 +19,8 @@ const members = defineCollection({
     photo: opt, // path under public/, e.g. /members/jsong.jpg
     interests: opt,
     current: opt, // Alumni only: current affiliation
+    education: opt, // one line, e.g. "B.S. in Energy Engineering, KENTECH"
+    bio: opt, // short self-introduction paragraph (People page)
     homepage: optUrl,
   }),
 });
@@ -51,6 +53,9 @@ const publications = defineCollection({
     doi: opt, // "10.1016/..." only; link is built automatically
     link: optUrl, // use when there is no DOI (patent, preprint)
     pdf: opt, // path under public/, e.g. /papers/kim2026.pdf, or a full URL
+    tags: z.array(z.string()).default([]), // topic keywords → filter buttons on /publications
+    thumb: opt, // thumbnail under public/, e.g. /papers/thumbs/kim2026.png (4:3)
+    code: optUrl, // code repository
     highlight: z.boolean().default(false),
   }),
 });
