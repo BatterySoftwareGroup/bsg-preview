@@ -21,3 +21,7 @@ html { scroll-behavior: smooth; }
 }
 
 @plugin "@tailwindcss/typography";
+
+/* v3: a page shown inside the home sheet (iframe) drops its own header/footer; desktop sticky bars sit at the top. */
+html.embed body > header, html.embed body > footer { display: none; }
+@media (min-width: 64rem) { html.embed .lg\:top-16 { top: 0; } }
