@@ -9,11 +9,11 @@ export const SITE = {
   tagline: 'Mathematical models for battery cells, packs, BMS algorithms, and energy systems.',
   // 홈 "About" 문단 (기존 PI 소개를 연구실 관점으로 고쳐 씀 — PI 확인 필요)
   about: 'We seek to understand the dynamics of energy systems and to optimize their physical designs and algorithms by building mathematical models. Our work spans electrode and material microstructures, battery cells, packs, and management algorithms, to techno-economic evaluations of energy systems, and we validate our models in our own battery testing lab.',
-  address: 'Office 206, Research Building 1, KENTECH, 21 Kentech-gil, Naju-si, Jeonnam-Gwangju, Republic of Korea',
-  addressKo: '전남광주통합특별시 나주시 켄텍길 21, 한국에너지공과대학교 연구 1동 206호',
+  address: 'Office 201, Research Building 1, KENTECH, 21 Kentech-gil, Naju-si, Jeonnam-Gwangju, Republic of Korea',
+  addressKo: '전남광주통합특별시 나주시 켄텍길 21, 한국에너지공과대학교 연구 1동 201호',
   email: 'jsong@kentech.ac.kr',
   phone: '', // 없으면 숨김
-  office: 'Research Building 1, Room 206',
+  office: 'Research Building 1, Room 201',
   mapQuery: '한국에너지공과대학교', // Google 지도 검색어 (장소명이 좌표보다 정확)
   recruiting: 'We have multiple open positions for PhD students and Postdoctoral Fellows. If interested, please contact Prof. Song by email with a short CV and your research interests.',
   github: '', // 랩 GitHub 조직 주소 — 비우면 footer 링크 숨김
