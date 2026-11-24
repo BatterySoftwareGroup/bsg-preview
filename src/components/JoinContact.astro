@@ -1,0 +1,51 @@
+---
+// Join us, how to apply, address + map. Positions are a draft — confirm with the PI. Used on /contact and on home.
+import PageToc from './PageToc.astro';
+import { SITE } from '../site';
+const map = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&output=embed`;
+const positions = [
+  ['Ph.D. / M.S.–Ph.D. students', 'Battery modeling, BMS algorithms, impedance diagnostics, and data-driven prognostics.'],
+  ['Postdoctoral fellows', 'Electrochemical modeling, battery testing, or machine learning for energy systems.'],
+  ['Undergraduate interns', 'Hands-on research on battery data pipelines and cell testing during the semester or vacation.'],
+];
+const steps = ['A short CV', 'Transcript (unofficial is fine)', 'A few sentences on the research topic you are interested in'];
+const h2 = 'scroll-mt-24 text-2xl font-bold text-ink dark:text-white';
+---
+  <div class="grid gap-10 lg:grid-cols-[1fr_10rem]">
+    <div class="space-y-14">
+      <section>
+        <h2 id="join" class={h2}>Join us</h2>
+        <p class="mt-3 max-w-3xl text-lg leading-relaxed text-slate-700 dark:text-slate-300">{SITE.recruiting}</p>
+        <div class="mt-6 grid gap-5 md:grid-cols-3" data-stagger>
+          {positions.map(([t, d]) => (
+            <div class="rounded-2xl border border-slate-200 p-6 dark:border-slate-700">
+              <p class="font-bold text-blue">{t}</p>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="reveal rounded-2xl border-l-4 border-sky bg-sky/5 p-6 md:p-8">
+        <h2 id="apply" class={h2}>How to apply</h2>
+        <p class="mt-3 text-slate-700 dark:text-slate-300">Email Prof. Song with:</p>
+        <ul class="mt-2 list-disc space-y-1 pl-5 text-slate-700 dark:text-slate-300">{steps.map((s) => <li>{s}</li>)}</ul>
+        <a href={`mailto:${SITE.email}?subject=${encodeURIComponent('[BSG] Application')}`} class="mt-6 inline-block rounded-full bg-blue px-5 py-2 text-sm font-semibold text-white hover:bg-navy">{SITE.email}</a>
+      </section>
+
+      <section>
+        <h2 id="contact" class={h2}>Contact</h2>
+        <div class="mt-5 grid gap-8 md:grid-cols-2">
+          <dl class="space-y-3">
+            <div><dt class="text-sm font-semibold text-slate-500">Lab</dt><dd>{SITE.fullName}</dd><dd class="text-sm text-slate-500">{[SITE.fullNameKo, SITE.department, SITE.affiliationFull].filter(Boolean).join(' · ')}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Address</dt><dd>{SITE.address}</dd>{SITE.addressKo && <dd class="text-sm text-slate-500">{SITE.addressKo}</dd>}</div>
+            <div><dt class="text-sm font-semibold text-slate-500">Office</dt><dd>{SITE.office}</dd></div>
+            <div><dt class="text-sm font-semibold text-slate-500">Email</dt><dd><a href={`mailto:${SITE.email}`} class="text-blue hover:underline">{SITE.email}</a></dd></div>
+            {SITE.phone && <div><dt class="text-sm font-semibold text-slate-500">Phone</dt><dd>{SITE.phone}</dd></div>}
+          </dl>
+          <iframe src={map} class="min-h-80 w-full rounded-2xl border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map"></iframe>
+        </div>
+      </section>
+    </div>
+    <aside class="hidden lg:block"><div class="sticky top-24"><PageToc items={[['join', 'Join us'], ['apply', 'How to apply'], ['contact', 'Contact']]} /></div></aside>
+  </div>

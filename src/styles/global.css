@@ -22,6 +22,11 @@ html { scroll-behavior: smooth; }
 
 @plugin "@tailwindcss/typography";
 
-/* v3: a page shown inside the home sheet (iframe) drops its own header/footer; desktop sticky bars sit at the top. */
-html.embed body > header, html.embed body > footer { display: none; }
-@media (min-width: 64rem) { html.embed .lg\:top-16 { top: 0; } }
+/* v3 fold/unfold buttons ([data-expand]); the arrow flips when open. */
+.expand-btn { display: inline-flex; align-items: center; gap: .4rem; border: 1px solid var(--color-slate-300); border-radius: 9999px; padding: .4rem 1rem; font-size: .875rem; font-weight: 600; }
+.expand-btn:hover { border-color: var(--color-blue); color: var(--color-blue); }
+.expand-btn::after { content: "▾"; font-size: .75em; transition: rotate .2s; }
+.expand-btn[aria-expanded="true"] { background: var(--color-blue); border-color: var(--color-blue); color: #fff; }
+.expand-btn[aria-expanded="true"]::after { rotate: 180deg; }
+/* header section bar: current section in blue (vertical indexes get their border style in PageToc) */
+header .toc-on { color: var(--color-blue); }

@@ -2,26 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/Container.astro';
 import PeopleTabs from '../components/PeopleTabs.astro';
-import { getCollection } from 'astro:content';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-// Newest graduates first (period starts with the admission "YYYY.MM").
-const alumni = (await getCollection('members')).map((m) => m.data).filter((m) => m.role === 'Alumni').sort((a, b) => (b.period ?? '').localeCompare(a.period ?? ''));
+import AlumniGrid from '../components/AlumniGrid.astro';
 ---
 <Layout title="Alumni">
 <Container title="People">
   <PeopleTabs />
-  <p class="reveal text-slate-600 dark:text-slate-300">Proud graduates of the Battery Software Group.</p>
-  <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
-    {alumni.map((m) => (
-      <div class="flex items-center gap-4 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
-        {m.photo && <img src={`${base}${m.photo}`} alt={m.name} class="aspect-[4/5] w-16 shrink-0 rounded-lg object-cover object-top" loading="lazy" />}
-        <div class="min-w-0">
-          <p class="font-bold text-ink dark:text-white">{m.name}{m.name_ko && <span class="ml-1 text-sm font-normal text-slate-500">{m.name_ko}</span>}</p>
-          {m.period && <p class="font-mono text-xs text-slate-500">{m.period}</p>}
-          {m.current && <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">→ {m.current}</p>}
-        </div>
-      </div>
-    ))}
-  </div>
+  <p class="reveal mb-8 text-slate-600 dark:text-slate-300">Proud graduates of the Battery Software Group.</p>
+  <AlumniGrid />
 </Container>
 </Layout>

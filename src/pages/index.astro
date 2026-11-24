@@ -1,63 +1,50 @@
 ---
-// Home, v2 (SD Kang Lab pattern): no hero banner — a captioned photo, the recruiting line,
-// mission + about, research themes and recent papers, with an Announcements sidebar.
+// Home, v3: the whole site on one long page (NEMO pattern). The header bar scrolls to each section;
+// long lists start folded and open in place ([data-expand] buttons, <details> for research themes).
+// The separate pages (/publications, /members, …) still exist and reuse the same components.
 import Layout from '../layouts/Layout.astro';
 import PubItem from '../components/PubItem.astro';
+import PubList from '../components/PubList.astro';
+import ProfessorCard from '../components/ProfessorCard.astro';
+import MemberGroups from '../components/MemberGroups.astro';
+import AlumniGrid from '../components/AlumniGrid.astro';
+import ProjectList from '../components/ProjectList.astro';
+import GalleryGrid from '../components/GalleryGrid.astro';
+import JoinContact from '../components/JoinContact.astro';
 import { sortPubs } from '../pubs';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { SITE } from '../site';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
-const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 4); // no separate News page: the sidebar shows the latest 4
-const pubs = sortPubs(await getCollection('publications')).slice(0, 3);
-const photos = (await getCollection('gallery')).map((g) => g.data).sort((a, b) => +b.date - +a.date).slice(0, 4);
-const h2 = 'text-2xl font-bold text-ink dark:text-white';
-const more = 'text-sm font-medium text-blue hover:underline';
+const topics = await Promise.all((await getCollection('research')).sort((a, b) => a.data.order - b.data.order).map(async (t) => ({ t, Content: (await render(t)).Content })));
+const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 4);
+const allPubs = sortPubs(await getCollection('publications'));
+const inTheme = (id: string) => allPubs.filter((p) => p.data.themes.some((x) => x.id === id)).length;
+const members = (await getCollection('members')).map((m) => m.data);
+const nStudents = members.filter((m) => !['PI', 'Alumni'].includes(m.role)).length;
+const nAlumni = members.filter((m) => m.role === 'Alumni').length;
+const nProjects = (await getCollection('projects')).length;
+const wrap = 'mx-auto max-w-6xl px-4 lg:px-8';
+const sec = 'scroll-mt-16 py-14';
+const h2 = 'reveal text-3xl font-bold text-ink dark:text-white';
 ---
 <Layout>
-  <div class="mx-auto grid max-w-6xl gap-12 px-4 py-10 lg:grid-cols-[1fr_18rem] lg:px-8 lg:py-14">
-    <div class="space-y-14">
-      <section>
-        <h1 class="sr-only">{SITE.fullName}</h1>
-        <p class="text-lg text-slate-700 dark:text-slate-300">
-          <span class="font-semibold text-ink dark:text-white">Interested in working with us?</span>{' '}
-          See <a href={`${base}/contact`} class="text-blue underline underline-offset-2">Join & Contact</a> for openings and how to apply.
-        </p>
-        {SITE.homePhoto && (
-          <figure class="mt-6">
-            <img src={`${base}${SITE.homePhoto}`} alt={SITE.homePhotoCaption} class="w-full rounded-xl" />
-            <figcaption class="mt-2 text-center text-sm text-slate-500 italic">{SITE.homePhotoCaption}</figcaption>
-          </figure>
-        )}
-      </section>
-
-      <section id="about" class="reveal scroll-mt-24">
-        <h2 class="text-3xl font-bold leading-tight text-ink dark:text-white">{SITE.mission}</h2>
-        <p class="mt-4 text-lg leading-relaxed text-slate-700 dark:text-slate-300">{SITE.about}</p>
-      </section>
-
-      <section id="research" class="scroll-mt-24">
-        <div class="reveal flex items-baseline justify-between"><h2 class={h2}>Research Themes</h2><a href={`${base}/research`} class={more}>More →</a></div>
-        <div class="mt-4 divide-y divide-slate-200 dark:divide-slate-700" data-stagger>
-          {topics.map((t) => (
-            <a href={`${base}/research/${t.id}`} class="group flex items-center gap-5 py-4">
-              {(t.data.cover ?? t.data.image) && <img src={`${base}${t.data.cover ?? t.data.image}`} alt="" class="h-20 w-28 shrink-0 rounded-lg object-contain" />}
-              <div>
-                <p class="font-bold tracking-wide text-ink uppercase group-hover:text-blue dark:text-white">{t.data.title}</p>
-                <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{t.data.summary}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section id="publications" class="reveal scroll-mt-24">
-        <div class="flex items-baseline justify-between"><h2 class={h2}>Recent Publications</h2><a href={`${base}/publications`} class={more}>All publications →</a></div>
-        <ul class="mt-5 space-y-7">{pubs.map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
-      </section>
+  <!-- About -->
+  <section id="about" class={`${wrap} ${sec} grid gap-12 lg:grid-cols-[1fr_18rem]`}>
+    <div>
+      <h1 class="sr-only">{SITE.fullName}</h1>
+      <p class="text-lg text-slate-700 dark:text-slate-300">
+        <span class="font-semibold text-ink dark:text-white">Interested in working with us?</span>{' '}
+        See <a href={`${base}/#join`} class="text-blue underline underline-offset-2">Join & Contact</a> for openings and how to apply.
+      </p>
+      {SITE.homePhoto && (
+        <figure class="mt-6">
+          <img src={`${base}${SITE.homePhoto}`} alt={SITE.homePhotoCaption} class="w-full rounded-xl" />
+          <figcaption class="mt-2 text-center text-sm text-slate-500 italic">{SITE.homePhotoCaption}</figcaption>
+        </figure>
+      )}
+      <h2 class="reveal mt-12 text-3xl font-bold leading-tight text-ink dark:text-white">{SITE.mission}</h2>
+      <p class="reveal mt-4 text-lg leading-relaxed text-slate-700 dark:text-slate-300">{SITE.about}</p>
     </div>
-
-    <!-- Announcements sidebar (SD Kang Lab pattern): date + title only, no colored chips, so it reads as a quiet list -->
     <aside class="reveal lg:self-start">
       <h2 class="text-xl font-bold text-ink dark:text-white">Announcements</h2>
       <ul class="mt-3 divide-y divide-slate-200 dark:divide-slate-700">
@@ -69,14 +56,73 @@ const more = 'text-sm font-medium text-blue hover:underline';
         ))}
       </ul>
     </aside>
-  </div>
+  </section>
 
-  <section class="bg-slate-50 dark:bg-slate-800/50">
-    <div class="mx-auto max-w-6xl px-4 py-14 lg:px-8">
-      <div class="reveal flex items-baseline justify-between"><h2 class={h2}>Gallery</h2><a href={`${base}/gallery`} class={more}>View all →</a></div>
-      <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4" data-stagger>
-        {photos.map((g) => <a href={`${base}/gallery`}><img src={`${base}${g.image}`} alt={g.caption} class="aspect-[3/2] w-full rounded-xl object-cover" loading="lazy" /></a>)}
+  <!-- Research: each theme unfolds in place -->
+  <section id="research" class={`bg-slate-50 ${sec} dark:bg-slate-800/50`}>
+    <div class={wrap}>
+      <h2 class={h2}>Research</h2>
+      <div class="mt-6 divide-y divide-slate-200 dark:divide-slate-700" data-stagger>
+        {topics.map(({ t, Content }) => (
+          <details class="group py-2">
+            <summary class="flex cursor-pointer list-none items-center gap-5 py-3 [&::-webkit-details-marker]:hidden">
+              {(t.data.cover ?? t.data.image) && <img src={`${base}${t.data.cover ?? t.data.image}`} alt="" class="hidden h-20 w-28 shrink-0 rounded-lg object-contain sm:block" />}
+              <div class="flex-1">
+                <p class="font-bold tracking-wide text-ink uppercase group-hover:text-blue dark:text-white">{t.data.title}</p>
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{t.data.summary}</p>
+              </div>
+              <span class="shrink-0 text-slate-400 transition group-open:rotate-180" aria-hidden="true">▾</span>
+            </summary>
+            <div class="pb-6 sm:pl-33">
+              <div class="prose prose-slate max-w-3xl dark:prose-invert"><Content /></div>
+              {t.data.image && <img src={`${base}${t.data.image}`} alt="" class="mt-6 w-full max-w-3xl rounded-xl" loading="lazy" />}
+              <button type="button" class="tag-btn mt-6 rounded-full bg-blue px-4 py-1.5 text-sm font-semibold text-white hover:bg-navy" data-tag={t.id}>See all {inTheme(t.id)} publications in this theme ↓</button>
+            </div>
+          </details>
+        ))}
       </div>
+      <button type="button" data-expand="projects-more" aria-expanded="false" class="expand-btn mt-8">Projects ({nProjects})</button>
+      <div id="projects-more" class="max-w-3xl" hidden><ProjectList /></div>
     </div>
   </section>
+
+  <!-- People: PI first, students and alumni unfold below -->
+  <section id="people" class={`${wrap} ${sec}`}>
+    <h2 class={h2}>People</h2>
+    <div class="mt-8"><ProfessorCard /></div>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <button type="button" data-expand="people-members" aria-expanded="false" class="expand-btn">Graduate Students ({nStudents})</button>
+      <button type="button" data-expand="people-alumni" aria-expanded="false" class="expand-btn">Alumni ({nAlumni})</button>
+    </div>
+    <div id="people-members" class="mt-8" hidden><MemberGroups /></div>
+    <div id="people-alumni" class="mt-8" hidden><h3 class="mb-4 text-2xl font-bold text-ink dark:text-white">Alumni</h3><AlumniGrid /></div>
+  </section>
+
+  <!-- Publications: recent 3, the full filterable list unfolds in their place -->
+  <section id="publications" class={`bg-slate-50 ${sec} dark:bg-slate-800/50`}>
+    <div class={wrap}>
+      <h2 class={h2}>Publications</h2>
+      <ul class="mt-6 space-y-7" id="pubs-recent">{allPubs.slice(0, 3).map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
+      <button type="button" data-expand="pubs-all" aria-expanded="false" class="expand-btn mt-8">Show all {allPubs.length} publications</button>
+      <div id="pubs-all" hidden><PubList /></div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class={`${wrap} ${sec}`}>
+    <h2 class={h2}>Gallery</h2>
+    <div class="mt-6"><GalleryGrid limit={4} /></div>
+  </section>
+
+  <!-- Join & Contact (its own headings carry ids join / apply / contact) -->
+  <section class={`border-t border-slate-200 dark:border-slate-700 ${wrap} ${sec}`}>
+    <JoinContact />
+  </section>
 </Layout>
+
+<script>
+  // The full publication list replaces the recent three while it is open.
+  const btn = document.querySelector<HTMLElement>('[data-expand="pubs-all"]')!;
+  const recent = document.querySelector<HTMLElement>('[id="pubs-recent"]')!;
+  new MutationObserver(() => (recent.hidden = btn.getAttribute('aria-expanded') === 'true')).observe(btn, { attributes: true, attributeFilter: ['aria-expanded'] });
+</script>

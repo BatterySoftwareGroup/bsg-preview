@@ -1,29 +1,13 @@
 ---
-// Current members (PI lives on /professor only, per 00_baseline.md).
+// Current members (PI lives on /professor).
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/Container.astro';
-import MemberCard from '../components/MemberCard.astro';
+import MemberGroups from '../components/MemberGroups.astro';
 import PeopleTabs from '../components/PeopleTabs.astro';
-import { getCollection } from 'astro:content';
-const groups = [['Postdoc', 'Postdoctoral Researchers', 'Postdoctoral Researcher'], ['PhD', 'Ph.D. / M.S.–Ph.D. Students', 'Ph.D. Candidate'], ['MS', 'M.S. Students', 'M.S. Student'], ['Staff', 'Researchers & Staff', 'Researcher'], ['BS', 'Undergraduate Students', 'Undergraduate Researcher']];
-// Sort by admission date (period starts with "YYYY.MM"), then by surname; missing period goes last.
-const surname = (m: any) => m.name.split(' ').pop();
-const byPeriod = (a: any, b: any) => (a.period ?? '9').localeCompare(b.period ?? '9') || surname(a).localeCompare(surname(b));
-const members = (await getCollection('members')).map((m) => m.data);
 ---
 <Layout title="Members">
 <Container title="People">
   <PeopleTabs />
-  {groups.map(([role, heading, label]) => {
-    const group = members.filter((m) => m.role === role).sort(byPeriod);
-    return group.length > 0 && (
-      <section class="mb-10">
-        <h2 class="reveal text-2xl font-bold text-ink dark:text-white">{heading} <span class="text-base font-normal text-slate-400">{group.length}</span></h2>
-        <div class="divide-y divide-slate-200 dark:divide-slate-700" data-stagger>
-          {group.map((m) => <MemberCard m={m} label={label} />)}
-        </div>
-      </section>
-    );
-  })}
+  <MemberGroups />
 </Container>
 </Layout>

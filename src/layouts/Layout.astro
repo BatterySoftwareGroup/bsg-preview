@@ -4,23 +4,13 @@ import { SITE } from '../site';
 import Logo from '../components/Logo.astro';
 const { title } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-// [href, label, children?] — items with children open a dropdown (desktop) / indented list (mobile).
-const nav: [string, string, [string, string][]?][] = [
-  ['/', 'Home'],
-  ['/professor', 'People', [['/professor', 'Professor'], ['/members', 'Members'], ['/alumni', 'Alumni']]],
-  ['/research', 'Research', [['/research', 'Themes'], ['/projects', 'Projects']]],
-  ['/publications', 'Publications'],
-  ['/gallery', 'Gallery'],
-  ['/contact', 'Join & Contact'],
-];
-const path = Astro.url.pathname.replace(base, '').replace(/\/$/, '') || '/';
-const on = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
-const active = ([href, , kids]: (typeof nav)[number]) => on(href) || !!kids?.some(([h]) => on(h));
+// v3: one long home page. Menu items are its sections; from other pages they lead back to home#section.
+const nav: [string, string][] = [['about', 'About'], ['research', 'Research'], ['people', 'People'], ['publications', 'Publications'], ['gallery', 'Gallery'], ['join', 'Join & Contact']];
 ---
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script is:inline>document.documentElement.classList.add('js'); if (window !== top) document.documentElement.classList.add('embed')</script>
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href={`${base}/favicon.png`} />
     <title>{title ? `${title} | ${SITE.name}` : `${SITE.name} · ${SITE.fullName}`}</title>
@@ -38,30 +28,25 @@ const active = ([href, , kids]: (typeof nav)[number]) => on(href) || !!kids?.som
     <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-700 dark:bg-slate-900/90">
       <div class="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 lg:px-8">
         <a href={`${base}/`} class="flex items-center gap-3"><Logo class="h-8 md:h-9" /><span class="hidden text-lg font-semibold text-ink sm:inline dark:text-white">{SITE.fullName}</span></a>
-        <button id="menu-open" class="ml-auto p-2" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
+        <nav class="page-toc ml-auto hidden gap-7 text-[15px] font-medium lg:flex" aria-label="Sections">
+          {nav.map(([id, label]) => <a href={`${base}/#${id}`} data-toc={id} class="py-2 hover:text-blue">{label}</a>)}
+        </nav>
+        <button id="menu-open" class="ml-auto p-2 lg:hidden" aria-label="Open menu" aria-controls="drawer" aria-expanded="false">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
       </div>
     </header>
 
-    <!-- v3: the hamburger menu is the only navigation, on every screen size (full-screen panel). -->
-    <aside id="drawer" class="invisible fixed inset-0 z-40 flex -translate-y-3 flex-col bg-white opacity-0 transition-[opacity,transform,visibility] duration-300 dark:bg-slate-900" aria-hidden="true">
-      <div class="mx-auto flex w-full max-w-6xl items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-700">
+    <!-- Mobile menu: full-screen panel that fades/slides in (pattern used by Samsung SDI, LG ES, Apple, Tesla). -->
+    <aside id="drawer" class="invisible fixed inset-0 z-40 flex -translate-y-3 flex-col bg-white opacity-0 transition-[opacity,transform,visibility] duration-300 lg:hidden dark:bg-slate-900" aria-hidden="true">
+      <div class="flex items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-700">
         <Logo class="h-7" />
         <button id="menu-close" class="p-2" aria-label="Close menu">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
       </div>
-      <nav class="mx-auto flex w-full max-w-2xl flex-col overflow-y-auto px-5 py-2 text-xl">
-        {nav.map((item) => {
-          const [href, label, kids] = item;
-          return kids ? (
-            <div class="border-b border-slate-100 py-3 dark:border-slate-800">
-              <p class:list={['font-medium', active(item) && 'text-blue']}>{label}</p>
-              {kids.map(([h, l]) => <a href={`${base}${h}`} class:list={['block py-1.5 pl-4 text-lg text-slate-600 dark:text-slate-300', on(h) && 'text-blue']}>{l}</a>)}
-            </div>
-          ) : <a href={`${base}${href}`} class:list={['border-b border-slate-100 py-4 font-medium dark:border-slate-800', on(href) && 'text-blue']}>{label}</a>;
-        })}
+      <nav class="flex flex-col overflow-y-auto px-5 py-2 text-xl">
+        {nav.map(([id, label]) => <a href={`${base}/#${id}`} class="border-b border-slate-100 py-4 font-medium dark:border-slate-800">{label}</a>)}
       </nav>
     </aside>
     <script>
@@ -76,6 +61,32 @@ const active = ([href, , kids]: (typeof nav)[number]) => on(href) || !!kids?.som
       addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
       drawer.addEventListener('click', (e) => (e.target as HTMLElement).closest('a') && set(false));
 
+      // Arriving from another page at /#section: images above load after the first jump and push the
+      // section down, so jump again once everything has loaded.
+      addEventListener('load', () => location.hash && document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'instant' }));
+
+      // Fold/unfold: <button data-expand="id"> shows #id and every [data-in="id"]; the arrow flips via CSS.
+      document.addEventListener('click', (e) => {
+        const b = (e.target as HTMLElement).closest<HTMLElement>('[data-expand]');
+        if (!b) return;
+        const id = b.dataset.expand!, open = b.getAttribute('aria-expanded') !== 'true';
+        document.querySelectorAll<HTMLElement>(`#${id}, [data-in="${id}"]`).forEach((el) => (el.hidden = !open));
+        b.setAttribute('aria-expanded', String(open));
+      });
+
+      // Scroll-spy for every .page-toc (header section bar, year index, page indexes):
+      // mark the last visible target whose top has passed 30% of the viewport.
+      document.querySelectorAll<HTMLElement>('.page-toc').forEach((toc) => {
+        const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[data-toc]')];
+        const targets = links.map((a) => document.getElementById(a.dataset.toc!)).filter(Boolean) as HTMLElement[];
+        if (!targets.length) return;
+        const update = () => {
+          const cur = targets.filter((t) => t.offsetParent && t.getBoundingClientRect().top < innerHeight * 0.3).pop() ?? targets[0];
+          links.forEach((a) => a.classList.toggle('toc-on', a.dataset.toc === cur?.id));
+        };
+        addEventListener('scroll', update, { passive: true }); update();
+      });
+
       // Scroll-reveal: play once when an element enters the viewport (CSS in global.css).
       const io = new IntersectionObserver((es) => es.forEach((e) => {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
@@ -84,72 +95,6 @@ const active = ([href, , kids]: (typeof nav)[number]) => on(href) || !!kids?.som
     </script>
 
     <main class="flex-1"><slot /></main>
-
-    <!-- v3 sheet (home only): other sections open over the home page in a full-height panel that loads the
-         normal page in an iframe (header/footer hidden there via html.embed). URL gets #/path, so back closes it. -->
-    <dialog id="sheet" class="m-0 mt-auto h-[100dvh] max-h-none w-full max-w-none overflow-hidden bg-white p-0 text-slate-800 backdrop:bg-ink/50 backdrop:backdrop-blur-sm sm:mx-auto sm:h-[calc(100dvh-2rem)] sm:max-w-6xl sm:rounded-t-2xl dark:bg-slate-900 dark:text-slate-100">
-      <div class="flex h-full flex-col">
-        <div class="flex h-14 shrink-0 items-center gap-3 border-b border-slate-200 px-4 dark:border-slate-700">
-          <p id="sheet-title" class="truncate text-lg font-bold text-ink dark:text-white"></p>
-          <a id="sheet-page" href="#" class="ml-auto shrink-0 text-sm text-slate-500 hover:text-blue">Open as page ↗</a>
-          <button id="sheet-close" class="shrink-0 p-2" aria-label="Close">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
-          </button>
-        </div>
-        <iframe id="sheet-frame" title="Section" class="w-full flex-1"></iframe>
-      </div>
-    </dialog>
-    <script>
-      const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-      const home = `${base}/`;
-      const local = (a: HTMLAnchorElement) => a.origin === location.origin && a.pathname.startsWith(base) && !a.hasAttribute('download') && !/\.(pdf|jpg|png|zip)$/i.test(a.pathname);
-
-      if (window !== top) {
-        // Inside the sheet: going home closes the sheet; other sites open in a new tab instead of inside the panel.
-        document.addEventListener('click', (e) => {
-          const a = (e.target as HTMLElement).closest('a');
-          if (!a || a.protocol === 'mailto:') return;
-          if (!local(a)) { a.target = '_blank'; a.rel = 'noopener'; }
-          else if (a.pathname === home && !a.hash) { e.preventDefault(); top!.location.href = home; }
-        });
-      } else if (location.pathname === home) {
-        const sheet = document.getElementById('sheet') as HTMLDialogElement;
-        const frame = document.getElementById('sheet-frame') as HTMLIFrameElement;
-        const page = document.getElementById('sheet-page') as HTMLAnchorElement;
-        const show = (path: string) => {
-          if (frame.dataset.path !== path) { frame.dataset.path = path; frame.src = `${base}${path}`; }
-          if (!sheet.open) { sheet.showModal(); document.body.classList.add('overflow-hidden'); }
-        };
-        const hide = () => { if (sheet.open) sheet.close(); };
-        sheet.addEventListener('close', () => {
-          document.body.classList.remove('overflow-hidden');
-          if (location.hash.startsWith('#/')) history.replaceState(null, '', home);
-        });
-        document.getElementById('sheet-close')!.onclick = hide;
-        sheet.addEventListener('click', (e) => e.target === sheet && hide()); // click on the dimmed backdrop
-        // Keep title, "Open as page" and #/path in step with whatever page the iframe is showing.
-        frame.addEventListener('load', () => {
-          const w = frame.contentWindow!, path = w.location.pathname.slice(base.length) + w.location.search;
-          if (path === '/' || !sheet.open) return;
-          frame.dataset.path = path;
-          (document.getElementById('sheet-title')!).textContent = w.document.title.split(' | ')[0];
-          page.href = `${base}${path}`;
-          history.replaceState(null, '', `#${path}`);
-        });
-        // Every in-site link on the home page (menu, "All publications →", cards) opens in the sheet.
-        document.addEventListener('click', (e) => {
-          const a = (e.target as HTMLElement).closest('a');
-          if (!a || a.id === 'sheet-page' || !local(a) || a.pathname === home) return;
-          e.preventDefault();
-          const path = a.pathname.slice(base.length) + a.search;
-          history.pushState(null, '', `#${path}`);
-          show(path);
-        });
-        const route = () => (location.hash.startsWith('#/') ? show(location.hash.slice(1)) : hide());
-        addEventListener('popstate', route);
-        route();
-      }
-    </script>
 
     <footer class="bg-ink text-slate-300">
       <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between lg:px-8">

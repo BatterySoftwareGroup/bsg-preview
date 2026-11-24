@@ -1,0 +1,82 @@
+---
+// Full publication list: theme filter + search + year groups with a year index. Used on /publications and on home.
+import PubItem from './PubItem.astro';
+import PageToc from './PageToc.astro';
+import { sortPubs } from '../pubs';
+import { getCollection } from 'astro:content';
+const KENTECH_SINCE = 2022; // PI joined KENTECH in 2022.04
+const pubs = sortPubs(await getCollection('publications'));
+// Filter chips follow the Research page order; every paper has at least one theme.
+const tags = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order)
+  .map((r) => [r.id, r.data.short, pubs.filter((p) => p.data.themes.some((x) => x.id === r.id)).length] as const);
+const groups = [['kentech', 'At KENTECH', pubs.filter((p) => p.data.year >= KENTECH_SINCE)], ['before', 'Before KENTECH', pubs.filter((p) => p.data.year < KENTECH_SINCE)]] as const;
+const toc: [string, string][] = groups.flatMap(([g, , list]) => [...new Set(list.map((p) => p.data.year))].map((y) => [`y${y}`, String(y)] as [string, string]));
+const chip = 'tag-btn shrink-0 rounded-full border border-slate-300 px-3 py-1 text-sm font-medium hover:border-blue hover:text-blue dark:border-slate-600';
+---
+  <p class="text-sm text-slate-500">* Corresponding author, † Equal contribution. Click a research theme to filter.</p>
+
+  <!-- Filter bar: pinned under the 64px header on desktop only (top-16); themes stay on one line -->
+  <div id="pub-bar" class="z-10 -mx-4 mt-6 flex scroll-mt-16 flex-col lg:sticky lg:top-16 gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:flex-row lg:items-center dark:border-slate-700 dark:bg-slate-900">
+    <div class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <button type="button" class={chip} data-tag="" aria-pressed="true">All <span class="text-slate-400">{pubs.length}</span></button>
+      {tags.map(([t, name, n]) => <button type="button" class={chip} data-tag={t} aria-pressed="false">{name} <span class="text-slate-400">{n}</span></button>)}
+    </div>
+    <input id="q" type="search" placeholder="Search title, author, venue…" class="w-full shrink-0 rounded-full border border-slate-300 px-4 py-1.5 text-sm lg:w-60 dark:border-slate-600 dark:bg-slate-800" />
+  </div>
+
+  <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_9rem]">
+    <div>
+      {groups.map(([g, label, list]) => list.length > 0 && (
+        <section class="group-block mb-14">
+          <h2 class="text-2xl font-bold text-ink dark:text-white">{label}</h2>
+          {[...new Set(list.map((p) => p.data.year))].map((y) => (
+            <section id={`y${y}`} class="year mt-8 scroll-mt-40 grid gap-4 sm:grid-cols-[4rem_1fr]">
+              <h3 class="font-mono text-lg font-extrabold text-slate-400">{y}</h3>
+              <ul class="space-y-7">{list.filter((p) => p.data.year === y).map((p) => <PubItem p={p.data} id={p.id} filter />)}</ul>
+            </section>
+          ))}
+        </section>
+      ))}
+      <p id="no-match" class="mt-8 hidden text-slate-500">No matching publications.</p>
+    </div>
+    <aside class="hidden lg:block"><div class="sticky top-40"><PageToc items={toc} title="Year" /></div></aside>
+  </div>
+<style is:global>
+  /* global: the paper chips live inside PubItem, outside this page's style scope */
+  .tag-btn[aria-pressed='true'], .pub .tag-btn.on { background: var(--color-blue); border-color: var(--color-blue); color: #fff; }
+  .tag-btn[aria-pressed='true'] span { color: rgb(255 255 255 / 0.7); }
+</style>
+
+<script>
+  // Filter: one active theme (chip in the bar or on a paper) AND every search word must match.
+  // Years and groups left with no visible paper are hidden.
+  const q = document.getElementById('q') as HTMLInputElement;
+  let tag = '';
+  const apply = () => {
+    const words = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+    document.querySelectorAll<HTMLElement>('.pub').forEach((li) => {
+      const t = li.textContent!.toLowerCase();
+      li.hidden = !(!tag || li.dataset.tags!.includes(`|${tag}|`)) || !words.every((w) => t.includes(w));
+    });
+    for (const sel of ['.year', '.group-block']) document.querySelectorAll<HTMLElement>(sel).forEach((s) => (s.hidden = !s.querySelector('.pub:not([hidden])')));
+    document.getElementById('no-match')!.classList.toggle('hidden', !!document.querySelector('.pub:not([hidden])'));
+    document.querySelectorAll<HTMLElement>('.tag-btn').forEach((b) => {
+      if (b.hasAttribute('aria-pressed')) b.setAttribute('aria-pressed', String(b.dataset.tag === tag));
+      else b.classList.toggle('on', !!tag && b.dataset.tag === tag);
+    });
+  };
+  document.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>('.tag-btn');
+    if (!b) return;
+    tag = b.dataset.tag === tag ? '' : b.dataset.tag!; // clicking the active theme again clears it
+    apply();
+    // On home the full list sits in a folded panel: open it, then bring the filter bar into view.
+    const panel = document.getElementById('pubs-all');
+    if (panel?.hidden) document.querySelector<HTMLElement>(`[data-expand="pubs-all"]`)?.click();
+    if (!b.closest('#pub-bar')) (document.getElementById('publications') ?? document.getElementById('pub-bar')!).scrollIntoView({ block: 'start' });
+  });
+  q.addEventListener('input', apply);
+  // Deep link from /research pages: /publications?tag=microstructures
+  tag = new URLSearchParams(location.search).get('tag') ?? '';
+  if (tag) apply();
+</script>

@@ -1,0 +1,19 @@
+---
+// Alumni cards, newest first. Used on /alumni and on home.
+import { getCollection } from 'astro:content';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Newest graduates first (period starts with the admission "YYYY.MM").
+const alumni = (await getCollection('members')).map((m) => m.data).filter((m) => m.role === 'Alumni').sort((a, b) => (b.period ?? '').localeCompare(a.period ?? ''));
+---
+  <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+    {alumni.map((m) => (
+      <div class="flex items-center gap-4 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+        {m.photo && <img src={`${base}${m.photo}`} alt={m.name} class="aspect-[4/5] w-16 shrink-0 rounded-lg object-cover object-top" loading="lazy" />}
+        <div class="min-w-0">
+          <p class="font-bold text-ink dark:text-white">{m.name}{m.name_ko && <span class="ml-1 text-sm font-normal text-slate-500">{m.name_ko}</span>}</p>
+          {m.period && <p class="font-mono text-xs text-slate-500">{m.period}</p>}
+          {m.current && <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">→ {m.current}</p>}
+        </div>
+      </div>
+    ))}
+  </div>

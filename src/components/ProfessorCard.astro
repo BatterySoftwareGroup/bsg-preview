@@ -1,0 +1,22 @@
+---
+// Compact PI card for the home People section (full CV stays on /professor).
+import { getCollection, getEntry } from 'astro:content';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pi = (await getCollection('members')).find((m) => m.data.role === 'PI')!.data;
+const prof = (await getEntry('professor', 'pi'))!.data;
+const links = [['Google Scholar', prof.scholar], ['ORCID', prof.orcid], ['LinkedIn', prof.linkedin], ['CV', prof.cv]].filter(([, u]) => u);
+---
+<div class="reveal flex flex-col gap-6 sm:flex-row">
+  {pi.photo && <img src={`${base}${pi.photo}`} alt={pi.name} class="aspect-[4/5] w-40 shrink-0 rounded-2xl object-cover object-top shadow-md" />}
+  <div>
+    <p class="text-2xl font-bold text-ink dark:text-white">{pi.name} {pi.name_ko && <span class="text-base font-normal text-slate-500">{pi.name_ko}</span>}</p>
+    <p class="mt-1 font-semibold text-blue">{prof.title}</p>
+    <p class="text-sm text-slate-500">{prof.department}</p>
+    <p class="mt-4 max-w-3xl leading-relaxed text-slate-700 dark:text-slate-300">{prof.bio}</p>
+    <p class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+      {pi.email && <a href={`mailto:${pi.email}`} class="text-blue hover:underline">{pi.email}</a>}
+      {links.map(([label, url]) => <a href={url} class="text-slate-600 hover:underline dark:text-slate-300">{label} ↗</a>)}
+      <a href={`${base}/professor`} class="text-slate-600 hover:underline dark:text-slate-300">Education & Experience →</a>
+    </p>
+  </div>
+</div>
