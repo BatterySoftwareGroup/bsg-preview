@@ -22,7 +22,7 @@ const chip = 'tag-btn shrink-0 rounded-full border border-slate-300 px-3 py-1 te
 
   <!-- Filter bar: pinned under the 64px header on desktop only (top-16); keywords stay on one line and scroll sideways if needed -->
   <div class="z-10 -mx-4 mt-6 flex flex-col lg:sticky lg:top-16 gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:flex-row lg:items-center dark:border-slate-700 dark:bg-slate-900">
-    <div class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap [scrollbar-width:thin]">
+    <div class="flex min-w-0 flex-1 gap-2 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <button type="button" class={chip} data-tag="" aria-pressed="true">All <span class="text-slate-400">{pubs.length}</span></button>
       {tags.map(([t, n]) => <button type="button" class={chip} data-tag={t} aria-pressed="false">{t} <span class="text-slate-400">{n}</span></button>)}
     </div>
