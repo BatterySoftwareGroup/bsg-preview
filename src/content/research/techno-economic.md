@@ -1,5 +1,6 @@
 ---
 title: Techno-economic Evaluations
+short: Techno-economics
 summary: Cost and profit modeling of energy systems, Li-ion manufacturing costs, and long-duration stationary storage under uncertainty.
 image: /research/techno-economic.svg
 cover: /research/techno-economic-cover.svg

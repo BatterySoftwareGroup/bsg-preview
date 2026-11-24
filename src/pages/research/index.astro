@@ -1,14 +1,13 @@
 ---
 // Research v2 (SD Kang Lab pattern): Themes as rows (image + uppercase title + one line),
-// then Keywords built from publication tags — each links to the filtered publication list.
+// with the number of papers per theme (publications.yaml `themes`).
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
-const count: Record<string, number> = {};
-(await getCollection('publications')).forEach((p) => p.data.tags.forEach((t) => (count[t] = (count[t] ?? 0) + 1)));
-const keywords = Object.entries(count).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const pubs = await getCollection('publications');
+const count = (id: string) => pubs.filter((p) => p.data.themes.some((x) => x.id === id)).length;
 const h2 = 'text-2xl font-bold text-ink dark:text-white';
 ---
 <Layout title="Research">
@@ -21,18 +20,11 @@ const h2 = 'text-2xl font-bold text-ink dark:text-white';
         <div>
           <p class="text-lg font-bold tracking-wide text-ink uppercase group-hover:text-blue dark:text-white">{t.data.title}</p>
           <p class="mt-1 text-slate-600 dark:text-slate-300">{t.data.summary}</p>
-          <p class="mt-2 text-sm font-medium text-blue">Read more →</p>
+          <p class="mt-2 text-sm font-medium text-blue">Read more · {count(t.id)} publications →</p>
         </div>
       </a>
     ))}
   </div>
 
-  <section class="reveal mt-14">
-    <h2 class={h2}>Research Keywords</h2>
-    <p class="mt-2 text-slate-600 dark:text-slate-300">Topics across our publications — click one to see the related papers.</p>
-    <div class="mt-5 flex flex-wrap gap-2">
-      {keywords.map(([k, n]) => <a href={`${base}/publications?tag=${encodeURIComponent(k)}`} class="rounded-full bg-sky/10 px-4 py-1.5 font-medium text-blue hover:bg-blue hover:text-white">{k} <span class="opacity-60">{n}</span></a>)}
-    </div>
-  </section>
 </Container>
 </Layout>

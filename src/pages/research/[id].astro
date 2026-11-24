@@ -10,6 +10,7 @@ export async function getStaticPaths() {
 const { t } = Astro.props;
 const { Content } = await render(t);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const all = (await getCollection('publications')).filter((p) => p.data.themes.some((x) => x.id === t.id)).length;
 const related = sortPubs((await getCollection('publications')).filter((p) => t.data.related.includes(p.id)));
 const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -31,5 +32,6 @@ const topics = (await getCollection('research')).sort((a, b) => a.data.order - b
     <h2 class="mt-10 text-xl font-bold text-navy dark:text-white">Related Publications</h2>
     <ul class="mt-4 max-w-3xl space-y-4">{related.map((p) => <PubItem p={p.data} id={p.id} />)}</ul>
   </>}
+  <a href={`${base}/publications?tag=${t.id}`} class="mt-6 inline-block font-medium text-blue hover:underline">All {all} publications in this theme →</a>
 </Container>
 </Layout>

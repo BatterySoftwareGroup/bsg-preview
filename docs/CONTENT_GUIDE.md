@@ -85,6 +85,6 @@ Alumni는 재학 기간 + 현 소속.
 
 ## Version 2 (2026-11) 추가 필드
 - `members.yaml`: `education`(한 줄 학력), `bio`(자기소개 2~4문장) — People 페이지 카드 오른쪽에 표시. 비우면 숨김. 사진은 4:5로 잘려 보입니다.
-- `publications.yaml`: `tags`(주제 키워드, Publications 필터 버튼·Research Keywords), `thumb`(썸네일, `public/papers/thumbs/`, 4:3), `code`(코드 저장소 URL).
+- `publications.yaml`: `themes`(연구 분야, Research 파일 이름 `cells-packs-bms`·`microstructures`·`techno-economic` 중 1개 이상 필수 — Publications 필터 버튼. 분야를 새로 만들면 `src/content/research/`에 md 파일과 `short` 이름을 추가), `thumb`(썸네일, `public/papers/thumbs/`, 4:3), `code`(코드 저장소 URL).
 - `src/site.ts`: `mission`(홈 hero 한 문장), `about`(홈 About 문단) — PI 확인 필요.
 - Join & Contact 페이지(`src/pages/contact.astro`)의 모집 분야·지원 서류는 초안입니다 — PI 확인 필요.

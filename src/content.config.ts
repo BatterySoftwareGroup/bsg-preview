@@ -1,6 +1,6 @@
 // Lab data lives in src/data/*.yaml and src/content/**.md — edit those files, not the pages.
 // Field guide (Korean): docs/CONTENT_GUIDE.md
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
@@ -53,7 +53,7 @@ const publications = defineCollection({
     doi: opt, // "10.1016/..." only; link is built automatically
     link: optUrl, // use when there is no DOI (patent, preprint)
     pdf: opt, // path under public/, e.g. /papers/kim2026.pdf, or a full URL
-    tags: z.array(z.string()).default([]), // topic keywords → filter buttons on /publications
+    themes: z.array(reference('research')).min(1), // research topic ids → filter buttons on /publications
     thumb: opt, // thumbnail under public/, e.g. /papers/thumbs/kim2026.png (4:3)
     code: optUrl, // code repository
     highlight: z.boolean().default(false),
@@ -75,6 +75,7 @@ const research = defineCollection({
   loader: glob({ pattern: '*.md', base: 'src/content/research' }),
   schema: z.object({
     title: z.string(),
+    short: z.string(), // short label for filter chips, e.g. "Microstructures"
     summary: z.string(),
     image: opt, // detail page: full infographic (1200×800)
     cover: opt, // cards on home/list: simple text-free image (600×400); falls back to image

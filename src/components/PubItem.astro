@@ -1,8 +1,11 @@
 ---
 // One publication entry: optional thumbnail, title, authors (PI in bold), a plain citation line
-// (venue, volume, year), then links and topic keywords on one row. Used on /publications, /professor and home.
-// `filter` makes the topic keywords buttons that drive the filter bar on /publications.
+// (venue, volume, year), then links and research-theme chips on one row. Used on /publications, /professor and home.
+// `filter` makes the theme chips buttons that drive the filter bar on /publications.
+import { getCollection } from 'astro:content';
 const { p, id, filter = false } = Astro.props;
+const label = Object.fromEntries((await getCollection('research')).map((r) => [r.id, r.data.short]));
+const themes: string[] = p.themes.map((r: { id: string }) => r.id);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const href = p.doi ? `https://doi.org/${p.doi}` : p.link;
 const pdf = p.pdf && (p.pdf.startsWith('http') ? p.pdf : `${base}${p.pdf}`);
@@ -16,7 +19,7 @@ const authors = p.authors.replace(/(J\. Song[*†]?)/, '<strong class="text-ink 
 const btn = 'rounded-full px-3 py-0.5 text-xs font-semibold';
 const chip = 'rounded-full bg-sky/10 px-2.5 py-0.5 text-xs font-medium text-blue';
 ---
-<li class="pub flex gap-5" data-tags={`|${p.tags.join('|')}|`}>
+<li class="pub flex gap-5" data-tags={`|${themes.join('|')}|`}>
   {p.thumb && <img src={`${base}${p.thumb}`} alt="" class="hidden aspect-[4/3] w-36 shrink-0 rounded-lg border border-slate-200 object-cover sm:block dark:border-slate-700" loading="lazy" />}
   <div class="min-w-0 border-l-4 border-sky pl-4">
     <p class="font-semibold leading-snug text-ink dark:text-white">{href ? <a href={href} class="hover:text-blue hover:underline">{p.title}</a> : p.title}</p>
@@ -27,10 +30,10 @@ const chip = 'rounded-full bg-sky/10 px-2.5 py-0.5 text-xs font-medium text-blue
       {pdf && <a href={pdf} class:list={[btn, 'bg-slate-600 text-white']}>PDF</a>}
       {p.code && <a href={p.code} class:list={[btn, 'bg-ink text-white']}>Code →</a>}
       <button type="button" class:list={[btn, 'copy-bib border border-slate-300 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800']} data-bib={bib}>BibTeX</button>
-      {p.tags.length > 0 && <span class="mx-1 h-4 w-px bg-slate-200 dark:bg-slate-700" aria-hidden="true"></span>}
-      {p.tags.map((t: string) => filter
-        ? <button type="button" class:list={[chip, 'tag-btn hover:bg-sky/25']} data-tag={t}>{t}</button>
-        : <span class={chip}>{t}</span>)}
+      {themes.length > 0 && <span class="mx-1 h-4 w-px bg-slate-200 dark:bg-slate-700" aria-hidden="true"></span>}
+      {themes.map((t) => filter
+        ? <button type="button" class:list={[chip, 'tag-btn hover:bg-sky/25']} data-tag={t}>{label[t]}</button>
+        : <span class={chip}>{label[t]}</span>)}
     </div>
   </div>
 </li>

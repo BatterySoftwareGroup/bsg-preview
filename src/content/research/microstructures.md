@@ -1,5 +1,6 @@
 ---
 title: Electrode and Material Microstructures
+short: Microstructures
 summary: Structure–property relationships and multi-scale transport in electrodes, solid-state electrolytes, and random heterogeneous materials.
 image: /research/microstructures.svg
 cover: /research/microstructures-cover.svg

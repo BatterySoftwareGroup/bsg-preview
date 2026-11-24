@@ -1,5 +1,6 @@
 ---
 title: Battery Cells, Packs, and BMS Algorithms
+short: Cells, Packs & BMS
 summary: Electrochemical-thermal-mechanical models of cells and packs, fast-charging protocols, aging diagnostics, and user-aware BMS algorithms.
 image: /research/cells-packs-bms.svg
 cover: /research/cells-packs-bms-cover.svg
