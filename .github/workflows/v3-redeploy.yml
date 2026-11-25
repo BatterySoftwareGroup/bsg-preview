@@ -1,0 +1,13 @@
+name: Redeploy after a v3 push
+# Pages deploys only from main, so a push to v3 asks main's deploy.yml to rebuild both versions.
+on:
+  push:
+    branches: [v3]
+permissions:
+  actions: write
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh workflow run deploy.yml --ref main -R ${{ github.repository }}
+        env: { GH_TOKEN: '${{ github.token }}' }
