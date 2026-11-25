@@ -1,6 +1,5 @@
 ---
 // Join us, how to apply, address + map. Positions are a draft — confirm with the PI. Used on /contact and on home.
-import PageToc from './PageToc.astro';
 import { SITE } from '../site';
 const map = `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&output=embed`;
 const positions = [
@@ -11,8 +10,7 @@ const positions = [
 const steps = ['A short CV', 'Transcript (unofficial is fine)', 'A few sentences on the research topic you are interested in'];
 const h2 = 'scroll-mt-24 text-2xl font-bold text-ink dark:text-white';
 ---
-  <div class="grid gap-10 lg:grid-cols-[1fr_10rem]">
-    <div class="space-y-14">
+  <div class="space-y-14">
       <section>
         <h2 id="join" class={h2}>Join us</h2>
         <p class="mt-3 max-w-3xl text-lg leading-relaxed text-slate-700 dark:text-slate-300">{SITE.recruiting}</p>
@@ -46,6 +44,4 @@ const h2 = 'scroll-mt-24 text-2xl font-bold text-ink dark:text-white';
           <iframe src={map} class="min-h-80 w-full rounded-2xl border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map"></iframe>
         </div>
       </section>
-    </div>
-    <aside class="hidden lg:block"><div class="sticky top-24"><PageToc items={[['join', 'Join us'], ['apply', 'How to apply'], ['contact', 'Contact']]} /></div></aside>
   </div>

@@ -1,7 +1,6 @@
 ---
-// Full publication list: theme filter + search + year groups with a year index. Used on /publications and on home.
+// Full publication list: theme filter + search + year groups. Used on /publications and on home.
 import PubItem from './PubItem.astro';
-import PageToc from './PageToc.astro';
 import { sortPubs } from '../pubs';
 import { getCollection } from 'astro:content';
 const KENTECH_SINCE = 2022; // PI joined KENTECH in 2022.04
@@ -10,7 +9,6 @@ const pubs = sortPubs(await getCollection('publications'));
 const tags = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order)
   .map((r) => [r.id, r.data.short, pubs.filter((p) => p.data.themes.some((x) => x.id === r.id)).length] as const);
 const groups = [['kentech', 'At KENTECH', pubs.filter((p) => p.data.year >= KENTECH_SINCE)], ['before', 'Before KENTECH', pubs.filter((p) => p.data.year < KENTECH_SINCE)]] as const;
-const toc: [string, string][] = groups.flatMap(([g, , list]) => [...new Set(list.map((p) => p.data.year))].map((y) => [`y${y}`, String(y)] as [string, string]));
 const chip = 'tag-btn shrink-0 rounded-full border border-slate-300 px-3 py-1 text-sm font-medium hover:border-blue hover:text-blue dark:border-slate-600';
 ---
   <p class="text-sm text-slate-500">* Corresponding author, † Equal contribution. Click a research theme to filter.</p>
@@ -24,8 +22,7 @@ const chip = 'tag-btn shrink-0 rounded-full border border-slate-300 px-3 py-1 te
     <input id="q" type="search" placeholder="Search title, author, venue…" class="w-full shrink-0 rounded-full border border-slate-300 px-4 py-1.5 text-sm lg:w-60 dark:border-slate-600 dark:bg-slate-800" />
   </div>
 
-  <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_9rem]">
-    <div>
+  <div class="mt-8">
       {groups.map(([g, label, list]) => list.length > 0 && (
         <section class="group-block mb-14">
           <h2 class="text-2xl font-bold text-ink dark:text-white">{label}</h2>
@@ -38,8 +35,6 @@ const chip = 'tag-btn shrink-0 rounded-full border border-slate-300 px-3 py-1 te
         </section>
       ))}
       <p id="no-match" class="mt-8 hidden text-slate-500">No matching publications.</p>
-    </div>
-    <aside class="hidden lg:block"><div class="sticky top-40"><PageToc items={toc} title="Year" /></div></aside>
   </div>
 <style is:global>
   /* global: the paper chips live inside PubItem, outside this page's style scope */

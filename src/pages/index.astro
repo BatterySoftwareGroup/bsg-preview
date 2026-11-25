@@ -64,7 +64,7 @@ const h2 = 'reveal text-3xl font-bold text-ink dark:text-white';
       <h2 class={h2}>Research</h2>
       <div class="mt-6 divide-y divide-slate-200 dark:divide-slate-700" data-stagger>
         {topics.map(({ t, Content }) => (
-          <details class="group py-2">
+          <details id={`theme-${t.id}`} class="group scroll-mt-16 py-2">
             <summary class="flex cursor-pointer list-none items-center gap-5 py-3 [&::-webkit-details-marker]:hidden">
               {(t.data.cover ?? t.data.image) && <img src={`${base}${t.data.cover ?? t.data.image}`} alt="" class="hidden h-20 w-28 shrink-0 rounded-lg object-contain sm:block" />}
               <div class="flex-1">

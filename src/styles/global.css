@@ -30,3 +30,5 @@ html { scroll-behavior: smooth; }
 .expand-btn[aria-expanded="true"]::after { rotate: 180deg; }
 /* header section bar: current section in blue (vertical indexes get their border style in PageToc) */
 header .toc-on { color: var(--color-blue); }
+/* v3: every anchor target clears the sticky 64px header (utilities like scroll-mt-40 still override) */
+@layer base { main [id] { scroll-margin-top: 4.5rem; } }
