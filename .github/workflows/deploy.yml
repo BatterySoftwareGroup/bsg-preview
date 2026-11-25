@@ -1,4 +1,6 @@
 name: Deploy to GitHub Pages
+# One Pages site, two versions: main (v2) at /bsg-preview/, branch v3 at /bsg-preview/v3/.
+# A push to v3 re-runs this on main via v3-redeploy.yml (the github-pages environment only accepts main).
 on:
   push:
     branches: [main]
@@ -7,14 +9,27 @@ permissions:
   contents: read
   pages: write
   id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: withastro/action@v3
-        with:
-          node-version: 24
+        with: { ref: main, path: v2 }
+      - uses: actions/checkout@v4
+        with: { ref: v3, path: v3 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: npm ci && npm run build
+        working-directory: v2
+      - run: npm ci && npm run build
+        working-directory: v3
+        env: { BASE: /bsg-preview/v3 }
+      - run: mkdir site && cp -r v2/dist/. site/ && cp -r v3/dist site/v3
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: site }
   deploy:
     needs: build
     runs-on: ubuntu-latest
